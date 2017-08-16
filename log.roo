@@ -1,0 +1,15 @@
+// Spring Roo 2.0.0.RC1 [rev 28015e3] log opened at 2017-08-16 18:18:25
+project setup --topLevelPackage com.disid.proof.ldap --java 8 --projectName ldapproof 
+jpa setup --provider HIBERNATE --database HYPERSONIC_PERSISTENT
+entity jpa --class ~.model.LocalGroup
+field string --fieldName name --sizeMin 3 --sizeMax 50
+entity jpa --class ~.model.LocalUser
+field string --fieldName firstName --sizeMin 3 --sizeMax 50
+field string --fieldName lastName --sizeMin 3 --sizeMax 50
+field string --fieldName email --sizeMin 3 --sizeMax 100
+repository jpa --all 
+service --all 
+web mvc setup 
+web mvc view setup --type THYMELEAF 
+web mvc controller --all --responseType THYMELEAF 
+// script --file /tmp/log.roo
