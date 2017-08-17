@@ -24,6 +24,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
   @Override
   public void configure( AuthenticationManagerBuilder auth ) throws Exception
   {
+
+    // To have many authentication options, just add them to the AuthenticationManagerBuilder in
+    // the order to be checked
+
+    auth.inMemoryAuthentication().withUser( "user" ).password( "password" ).roles( "USER" ).and().withUser( "admin" )
+        .password( "password" ).roles( "USER", "ADMIN" );
+
     auth.ldapAuthentication().userDnPatterns( "uid={0},ou=people" ).groupSearchBase( "ou=groups" )
         .contextSource( contextSource() ).passwordCompare().passwordEncoder( new LdapShaPasswordEncoder() )
         .passwordAttribute( "userPassword" );
