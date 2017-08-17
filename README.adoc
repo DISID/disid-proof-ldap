@@ -3,28 +3,32 @@ Proof of Spring Boot app with LDAP authentication and groups and users managemen
 
 == Requirements to provide in this proof
 
-* Integrate the Spring LDAP related utilities:
-** Spring LDAP
-** Spring Data LDAP
-** Spring Security LDAP
+* [ ] Integrate the Spring LDAP related utilities:
+** [X] Spring LDAP
+** [ ] Spring Data LDAP
+** [X] Spring Security LDAP
 
-* Provide authentication over an LDAP server using _Spring Security LDAP_
+* [X] Provide authentication over an LDAP server using _Spring Security LDAP_
 
-* Provide authentication for an administrator user stored in the local database, which will have priority over any other user with the same id defined in the LDAP server.
+* [ ] Provide authentication for an administrator user stored in the local database, which will have priority over any other user with the same id defined in the LDAP server.
 
-* Integrate with an embedded LDAP server for testing and also to be used with the _dev_ profile.
+* [ ] Integrate with an embedded LDAP server for testing and also to be used with the _dev_ profile.
 
-* Integrate with an external LDAP server for the default production profile.
+* [ ] Integrate with an external LDAP server for the default production profile.
 
-* Groups CRUD stored in the LDAP server and additional information located in the local database.
+* [ ] Groups CRUD stored in the LDAP server and additional information located in the local database.
 
-* Users CRUD stored in the LDAP server and additional information located in the local database. This includes setting or updating the users password.
+* [ ] Users CRUD stored in the LDAP server and additional information located in the local database. This includes setting or updating the users password.
 
-* Configurable properties to:
-** Filter groups from the LDAP server
-** Filter users from the LDAP server
-** Uniquely identification of single users
-** Display users information
+* [ ] Configurable properties to:
+** [ ] Filter groups from the LDAP server
+** [ ] Filter users from the LDAP server
+** [ ] Uniquely identification of single users
+** [ ] Display users information
+
+== Steps performed
+
+#. Integrate LDAP authentication following the Spring guide
 
 == Reference documentation
 
