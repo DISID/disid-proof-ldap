@@ -441,14 +441,17 @@ privileged aspect LocalUsersCollectionThymeleafController_Roo_Thymeleaf {
         else if (columnName.equals("version")) {
             builder.addColumn(getMessageSource().getMessage("label_localuser_version", null, "Version", locale), "version", Integer.class.getName(), 100);
         }
-        else if (columnName.equals("firstName")) {
-            builder.addColumn(getMessageSource().getMessage("label_localuser_firstname", null, "First Name", locale), "firstName", String.class.getName(), 100);
+        else if (columnName.equals("name")) {
+            builder.addColumn(getMessageSource().getMessage("label_localuser_name", null, "Name", locale), "name", String.class.getName(), 100);
         }
-        else if (columnName.equals("lastName")) {
-            builder.addColumn(getMessageSource().getMessage("label_localuser_lastname", null, "Last Name", locale), "lastName", String.class.getName(), 100);
+        else if (columnName.equals("login")) {
+            builder.addColumn(getMessageSource().getMessage("label_localuser_login", null, "Login", locale), "login", String.class.getName(), 100);
         }
-        else if (columnName.equals("email")) {
-            builder.addColumn(getMessageSource().getMessage("label_localuser_email", null, "Email", locale), "email", String.class.getName(), 100);
+        else if (columnName.equals("blocked")) {
+            builder.addColumn(getMessageSource().getMessage("label_localuser_blocked", null, "Blocked", locale), "blocked", Boolean.class.getName(), 100);
+        }
+        else if (columnName.equals("newRegistration")) {
+            builder.addColumn(getMessageSource().getMessage("label_localuser_newregistration", null, "New Registration", locale), "newRegistration", Boolean.class.getName(), 100);
         }
         }
         catch (ColumnBuilderException e) {

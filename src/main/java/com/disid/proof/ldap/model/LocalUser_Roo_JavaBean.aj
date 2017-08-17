@@ -48,35 +48,17 @@ privileged aspect LocalUser_Roo_JavaBean {
      * 
      * @return String
      */
-    public String LocalUser.getFirstName() {
-        return this.firstName;
+    public String LocalUser.getName() {
+        return this.name;
     }
     
     /**
      * TODO Auto-generated method documentation
      * 
-     * @param firstName
+     * @param name
      */
-    public void LocalUser.setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    
-    /**
-     * TODO Auto-generated method documentation
-     * 
-     * @return String
-     */
-    public String LocalUser.getLastName() {
-        return this.lastName;
-    }
-    
-    /**
-     * TODO Auto-generated method documentation
-     * 
-     * @param lastName
-     */
-    public void LocalUser.setLastName(String lastName) {
-        this.lastName = lastName;
+    public void LocalUser.setName(String name) {
+        this.name = name;
     }
     
     /**
@@ -84,17 +66,53 @@ privileged aspect LocalUser_Roo_JavaBean {
      * 
      * @return String
      */
-    public String LocalUser.getEmail() {
-        return this.email;
+    public String LocalUser.getLogin() {
+        return this.login;
     }
     
     /**
      * TODO Auto-generated method documentation
      * 
-     * @param email
+     * @param login
      */
-    public void LocalUser.setEmail(String email) {
-        this.email = email;
+    public void LocalUser.setLogin(String login) {
+        this.login = login;
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @return Boolean
+     */
+    public boolean LocalUser.isBlocked() {
+        return this.blocked;
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param blocked
+     */
+    public void LocalUser.setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @return Boolean
+     */
+    public boolean LocalUser.isNewRegistration() {
+        return this.newRegistration;
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param newRegistration
+     */
+    public void LocalUser.setNewRegistration(boolean newRegistration) {
+        this.newRegistration = newRegistration;
     }
     
 }

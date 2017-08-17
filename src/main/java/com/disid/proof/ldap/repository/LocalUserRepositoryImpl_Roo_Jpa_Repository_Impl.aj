@@ -25,19 +25,25 @@ privileged aspect LocalUserRepositoryImpl_Roo_Jpa_Repository_Impl {
      * TODO Auto-generated attribute documentation
      * 
      */
-    public static final String LocalUserRepositoryImpl.FIRST_NAME = "firstName";
+    public static final String LocalUserRepositoryImpl.NAME = "name";
     
     /**
      * TODO Auto-generated attribute documentation
      * 
      */
-    public static final String LocalUserRepositoryImpl.LAST_NAME = "lastName";
+    public static final String LocalUserRepositoryImpl.LOGIN = "login";
     
     /**
      * TODO Auto-generated attribute documentation
      * 
      */
-    public static final String LocalUserRepositoryImpl.EMAIL = "email";
+    public static final String LocalUserRepositoryImpl.BLOCKED = "blocked";
+    
+    /**
+     * TODO Auto-generated attribute documentation
+     * 
+     */
+    public static final String LocalUserRepositoryImpl.NEW_REGISTRATION = "newRegistration";
     
     /**
      * TODO Auto-generated method documentation
@@ -52,13 +58,14 @@ privileged aspect LocalUserRepositoryImpl_Roo_Jpa_Repository_Impl {
         
         JPQLQuery<LocalUser> query = from(localUser);
         
-        Path<?>[] paths = new Path<?>[] {localUser.firstName,localUser.lastName,localUser.email};        
+        Path<?>[] paths = new Path<?>[] {localUser.name,localUser.login,localUser.blocked,localUser.newRegistration};        
         applyGlobalSearch(globalSearch, query, paths);
         
         AttributeMappingBuilder mapping = buildMapper()
-			.map(FIRST_NAME, localUser.firstName)
-			.map(LAST_NAME, localUser.lastName)
-			.map(EMAIL, localUser.email);
+			.map(NAME, localUser.name)
+			.map(LOGIN, localUser.login)
+			.map(BLOCKED, localUser.blocked)
+			.map(NEW_REGISTRATION, localUser.newRegistration);
         
         applyPagination(pageable, query, mapping);
         applyOrderById(query);

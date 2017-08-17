@@ -16,9 +16,10 @@ privileged aspect LocalUser_Roo_ToString {
         return "LocalUser {" + 
                 "id='" + id + '\'' + 
                 ", version='" + version + '\'' + 
-                ", firstName='" + firstName + '\'' + 
-                ", lastName='" + lastName + '\'' + 
-                ", email='" + email + '\'' + 
+                ", name='" + name + '\'' + 
+                ", login='" + login + '\'' + 
+                ", blocked='" + blocked + '\'' + 
+                ", newRegistration='" + newRegistration + '\'' + 
                 ", ITERABLE_TO_ADD_CANT_BE_NULL_MESSAGE='" + ITERABLE_TO_ADD_CANT_BE_NULL_MESSAGE + '\'' + 
                 ", ITERABLE_TO_REMOVE_CANT_BE_NULL_MESSAGE='" + ITERABLE_TO_REMOVE_CANT_BE_NULL_MESSAGE + '\'' + "}" + super.toString();
     }
