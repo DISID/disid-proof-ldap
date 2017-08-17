@@ -16,6 +16,10 @@ Proof of Spring Boot app with LDAP authentication and groups and users managemen
 
 * [ ] Integrate with an external LDAP server for the default production profile.
 
+* [ ] Synchronization of groups data with the LDAP server.
+
+* [ ] Synchronization of users data with the LDAP server.
+
 * [ ] Groups CRUD stored in the LDAP server and additional information located in the local database.
 
 * [ ] Users CRUD stored in the LDAP server and additional information located in the local database. This includes setting or updating the users password.
