@@ -508,7 +508,12 @@
             <groupId>org.webjars.bower</groupId>
             <artifactId>ie10-viewport-bug-workaround</artifactId>
         </dependency>
-    </dependencies>
+        <dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-configuration-processor</artifactId>
+        	<optional>true</optional>
+        </dependency>
+  </dependencies>
 
   <build>
 
