@@ -14,33 +14,50 @@ public class LdapProperties
 {
 
   /**
-   * url
+   * The URL to connect to the LDAP server.
    */
   private String url;
 
   /**
-   * LDAP password.
-   * IMPORTANT: default value must not be null
+   * The password to connect to the LDAP server.
+   * Defaults to "".
    */
   private String passwordLdap = "";
 
   /**
-   * user Dn
-   * IMPORTANT: default value must not be null
+   * The base suffix from which all operations should origin. 
+   * If a base suffix is set, you will not have to (and, indeed, must not) specify the full
+   * distinguished names in any operations performed.
+   * Defaults to "".
+   */
+  private String baseDn = "";
+
+  /**
+   * The user distinguished name (principal) to use for getting authenticated contexts.
+   * Defaults to "".
    */
   private String userDn = "";
 
   /**
-   * group search base
-   * IMPORTANT: default value must not be null
+   * If your users are at a fixed location in the directory 
+   * (i.e. you can work out the DN directly from the username without doing a directory search), 
+   * you can use this attribute to map directly to the DN. It maps directly to the userDnPatterns
+   * property of AbstractLdapAuthenticator. The value is a specific pattern used to build the
+   * user's DN, for example "uid={0},ou=people".
+   * The key "{0}" must be present and will be substituted with the username.
+   * Defaults to "".
+   */
+  private String userDnPatterns = "";
+
+  /**
+   * The search base for group membership searches. Defaults to "".
    */
   private String groupSearchBase = "";
 
   /**
-   * domain
-   * IMPORTANT: default value must not be null
+   * The attribute in the directory which contains the user password. Defaults to "userPassword".
    */
-  private String domain = "";
+  private String passwordAttribute = "userPassword";
 
   public String getUrl()
   {
@@ -82,14 +99,34 @@ public class LdapProperties
     this.groupSearchBase = groupSearchBase;
   }
 
-  public String getDomain()
+  public String getBaseDn()
   {
-    return domain;
+    return baseDn;
   }
 
-  public void setDomain( String domain )
+  public void setBaseDn( String baseDn )
   {
-    this.domain = domain;
+    this.baseDn = baseDn;
+  }
+
+  public String getUserDnPatterns()
+  {
+    return userDnPatterns;
+  }
+
+  public void setUserDnPatterns( String userDnPatterns )
+  {
+    this.userDnPatterns = userDnPatterns;
+  }
+
+  public String getPasswordAttribute()
+  {
+    return passwordAttribute;
+  }
+
+  public void setPasswordAttribute( String passwordAttribute )
+  {
+    this.passwordAttribute = passwordAttribute;
   }
 
 }

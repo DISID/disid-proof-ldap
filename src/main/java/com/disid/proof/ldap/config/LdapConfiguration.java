@@ -41,7 +41,7 @@ public class LdapConfiguration
     if ( StringUtils.isNotEmpty( ldapProperties.getUrl() ) )
     {
       contextSource = new DefaultSpringSecurityContextSource( ldapProperties.getUrl() );
-      contextSource.setBase( ldapProperties.getGroupSearchBase() );
+      contextSource.setBase( ldapProperties.getBaseDn() );
       contextSource.setUserDn( ldapProperties.getUserDn() );
       contextSource.setPassword( ldapProperties.getPasswordLdap() );
     }

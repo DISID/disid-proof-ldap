@@ -27,6 +27,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
   @Autowired
   private DefaultSpringSecurityContextSource contextSource;
 
+  /**
+   * LDAP properties
+   */
+  @Autowired
+  private LdapProperties ldapProperties;
+
 
   @Override
   protected void configure( HttpSecurity http ) throws Exception
@@ -43,17 +49,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 
     auth.authenticationProvider( defaultAdminAuthenticationProvider() );
 
-    auth.ldapAuthentication().userDnPatterns( "uid={0},ou=people" ).groupSearchBase( "ou=groups" )
+    auth.ldapAuthentication().userDnPatterns( ldapProperties.getUserDnPatterns() )
+        .groupSearchBase( ldapProperties.getGroupSearchBase() )
         .contextSource( contextSource ).passwordCompare().passwordEncoder( new LdapShaPasswordEncoder() )
-        .passwordAttribute( "userPassword" );
+        .passwordAttribute( ldapProperties.getPasswordAttribute() );
   }
-
-  //  @Bean
-  //  public DefaultSpringSecurityContextSource contextSource()
-  //  {
-  //    return new DefaultSpringSecurityContextSource( Arrays.asList( "ldap://localhost:8389/" ),
-  //        "dc=springframework,dc=org" );
-  //  }
 
   /**
    * Create a default {@link AuthenticationProvider} bean for default CAM administrator.

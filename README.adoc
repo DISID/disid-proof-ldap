@@ -26,8 +26,8 @@ Proof of Spring Boot app with LDAP authentication and groups and users managemen
 
 * [ ] Configurable properties to:
 ** [X] Connect to the LDAP server
-** [ ] Filter groups from the LDAP server
-** [ ] Filter users from the LDAP server
+** [X] Filter groups from the LDAP server
+** [X] Filter users from the LDAP server
 ** [ ] Uniquely identification of single users
 ** [ ] Display users information
 
@@ -125,6 +125,11 @@ AdminUser findByLogin( String login );
 * Create a _LdapProperties_ class annotated with _@ConfigurationProperties_.
 * Create a _LdapConfiguration_ class to initialize the _DefaultSpringSecurityContextSource_ from the _LdapProperties_.
 * Remove the creation of the ldap context in _WebSecurityConfig_.
+
+=== Make LDAP authentication properties configurable
+
+* Add additional properties to _LdapProperties_ and the _application*.properties_ files.
+* Use the _LdapProperties_ component in the _WebSecurityConfiguration_ in the configuration of the LDAP authentication.
 
 == Reference documentation
 
