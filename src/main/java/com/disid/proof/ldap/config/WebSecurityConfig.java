@@ -49,10 +49,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 
     auth.authenticationProvider( defaultAdminAuthenticationProvider() );
 
+    // @formatter:off
     auth.ldapAuthentication().userDnPatterns( ldapProperties.getUserDnPatterns() )
         .groupSearchBase( ldapProperties.getGroupSearchBase() )
-        .contextSource( contextSource ).passwordCompare().passwordEncoder( new LdapShaPasswordEncoder() )
+        .contextSource( contextSource )
+        .passwordCompare()
+        .passwordEncoder( new LdapShaPasswordEncoder() )
         .passwordAttribute( ldapProperties.getPasswordAttribute() );
+    // @formatter:on
   }
 
   /**
