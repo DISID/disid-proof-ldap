@@ -31,6 +31,8 @@ Proof of Spring Boot app with LDAP authentication and groups and users managemen
 ** [ ] Uniquely identification of single users
 ** [ ] Display users information
 
+* [ ] Document the meaning and when to use the LDAP properties.
+
 == Steps performed
 
 === Integrate LDAP authentication following the Spring guide
