@@ -14,8 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
 
-import java.util.Arrays;
-
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
@@ -25,6 +23,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
    */
   @Autowired
   private AdminUserService adminUserService;
+
+  @Autowired
+  private DefaultSpringSecurityContextSource contextSource;
 
 
   @Override
@@ -43,16 +44,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     auth.authenticationProvider( defaultAdminAuthenticationProvider() );
 
     auth.ldapAuthentication().userDnPatterns( "uid={0},ou=people" ).groupSearchBase( "ou=groups" )
-        .contextSource( contextSource() ).passwordCompare().passwordEncoder( new LdapShaPasswordEncoder() )
+        .contextSource( contextSource ).passwordCompare().passwordEncoder( new LdapShaPasswordEncoder() )
         .passwordAttribute( "userPassword" );
   }
 
-  @Bean
-  public DefaultSpringSecurityContextSource contextSource()
-  {
-    return new DefaultSpringSecurityContextSource( Arrays.asList( "ldap://localhost:8389/" ),
-        "dc=springframework,dc=org" );
-  }
+  //  @Bean
+  //  public DefaultSpringSecurityContextSource contextSource()
+  //  {
+  //    return new DefaultSpringSecurityContextSource( Arrays.asList( "ldap://localhost:8389/" ),
+  //        "dc=springframework,dc=org" );
+  //  }
 
   /**
    * Create a default {@link AuthenticationProvider} bean for default CAM administrator.
