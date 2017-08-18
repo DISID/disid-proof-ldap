@@ -134,7 +134,22 @@ AdminUser findByLogin( String login );
 * Add additional properties to _LdapProperties_ and the _application*.properties_ files.
 * Use the _LdapProperties_ component in the _WebSecurityConfiguration_ in the configuration of the LDAP authentication.
 
+=== Which property to use as unique to identify users/groups
+
+From the documentation, LDAP by itself doesn't define a single property to be unique. What it defines to be unique is the DN (Distinguished Name), which is a combination of properties of an LDAP entry and its parent entries that uniquely identifies it (see https://stackoverflow.com/questions/7814569/what-do-people-use-for-cn-with-inetorgperson-in-ldap-directories or https://stackoverflow.com/questions/18756688/what-are-cn-ou-dc-in-an-ldap-search)
+
+If a property must be unique between sibling entries, it is usually something controlled at a higher level. In the case of persons, this is usually the case of the *cn* (Common Name) property. In Active Directory, for example, the property *sAMAccountName* is unique in all principal objects of the same domain (see https://blogs.msdn.microsoft.com/openspecification/2009/07/10/understanding-unique-attributes-in-active-directory/).
+
+Taking into account all this information, which is the property most suitable to be used as a unique identifier? To be absolutely sure the _DN_ would have to be used. But if the list of users to used are all included under the same LDAP entry, a property unique between them is enough. This is the usual case, and the parent entry is defined in the LDAP connection properties like the BaseDN and the UserDN.
+
+One of the properties usually used in this case is the *cn*, although it should be a configurable property, just in case the LDAP server data is using another one, like *uid* or *sAMAccountName*. 
+
 == Reference documentation
+
+=== Technical references
 
 * "Spring guide: Authenticating a User with LDAP":https://spring.io/guides/gs/authenticating-ldap/ 
 
+=== LDAP documentation
+
+* 

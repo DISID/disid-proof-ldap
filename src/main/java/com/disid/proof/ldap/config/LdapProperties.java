@@ -19,10 +19,16 @@ public class LdapProperties
   private String url;
 
   /**
+   * The user distinguished name (principal) to use for connecting to the LDAP server.
+   * Defaults to "".
+   */
+  private String userDn = "";
+
+  /**
    * The password to connect to the LDAP server.
    * Defaults to "".
    */
-  private String passwordLdap = "";
+  private String password = "";
 
   /**
    * The base suffix from which all operations should origin. 
@@ -31,12 +37,6 @@ public class LdapProperties
    * Defaults to "".
    */
   private String baseDn = "";
-
-  /**
-   * The user distinguished name (principal) to use for getting authenticated contexts.
-   * Defaults to "".
-   */
-  private String userDn = "";
 
   /**
    * If your users are at a fixed location in the directory 
@@ -69,14 +69,14 @@ public class LdapProperties
     this.url = url;
   }
 
-  public String getPasswordLdap()
+  public String getPassword()
   {
-    return passwordLdap;
+    return password;
   }
 
-  public void setPasswordLdap( String passwordLdap )
+  public void setPassword( String passwordLdap )
   {
-    this.passwordLdap = passwordLdap;
+    this.password = passwordLdap;
   }
 
   public String getUserDn()

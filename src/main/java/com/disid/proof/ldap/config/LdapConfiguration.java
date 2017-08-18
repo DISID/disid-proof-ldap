@@ -43,7 +43,7 @@ public class LdapConfiguration
       contextSource = new DefaultSpringSecurityContextSource( ldapProperties.getUrl() );
       contextSource.setBase( ldapProperties.getBaseDn() );
       contextSource.setUserDn( ldapProperties.getUserDn() );
-      contextSource.setPassword( ldapProperties.getPasswordLdap() );
+      contextSource.setPassword( ldapProperties.getPassword() );
     }
     return contextSource;
   }
