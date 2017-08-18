@@ -59,6 +59,12 @@ public class LdapProperties
    */
   private String passwordAttribute = "userPassword";
 
+  /**
+   * The attribute in the user entries which uniquely identifies them from the sibling entries.
+   * Defaults to 'cn'.
+   */
+  private String uniqueUserEntryAttribute = "cn";
+
   public String getUrl()
   {
     return url;
@@ -127,6 +133,16 @@ public class LdapProperties
   public void setPasswordAttribute( String passwordAttribute )
   {
     this.passwordAttribute = passwordAttribute;
+  }
+
+  public String getUniqueUserEntryAttribute()
+  {
+    return uniqueUserEntryAttribute;
+  }
+
+  public void setUniqueUserEntryAttribute( String uniqueUserEntryAttribute )
+  {
+    this.uniqueUserEntryAttribute = uniqueUserEntryAttribute;
   }
 
 }
