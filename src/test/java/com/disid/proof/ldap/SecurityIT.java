@@ -32,11 +32,11 @@ public class SecurityIT
   }
 
   @Test
-  public void loginWithValidMemoryUserThenAuthenticated() throws Exception
+  public void loginWithValidAdminUserThenAuthenticated() throws Exception
   {
-    FormLoginRequestBuilder login = formLogin().user( "user" ).password( "password" );
+    FormLoginRequestBuilder login = formLogin().user( "admin" ).password( "p4ssWord" );
 
-    mockMvc.perform( login ).andExpect( authenticated().withUsername( "user" ) );
+    mockMvc.perform( login ).andExpect( authenticated().withUsername( "admin" ) );
   }
 
   @Test
