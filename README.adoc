@@ -10,9 +10,9 @@ Proof of Spring Boot app with LDAP authentication and groups and users managemen
 
 * [X] Provide authentication over an LDAP server using _Spring Security LDAP_
 
-* [ ] Provide authentication for an administrator user stored in the local database, which will have priority over any other user with the same id defined in the LDAP server.
+* [X] Provide authentication for an administrator user stored in the local database, which will have priority over any other user with the same id defined in the LDAP server.
 
-* [ ] Integrate with an embedded LDAP server for testing and also to be used with the _dev_ profile.
+* [X] Integrate with an embedded LDAP server for testing and also to be used with the _dev_ profile.
 
 * [ ] Integrate with an external LDAP server for the default production profile.
 
@@ -32,7 +32,93 @@ Proof of Spring Boot app with LDAP authentication and groups and users managemen
 
 == Steps performed
 
-#. Integrate LDAP authentication following the Spring guide
+=== Integrate LDAP authentication following the Spring guide
+
+* Upgrade to Spring IO platform Brussels-SR4 to auto-run the embedded LDAP server.
+* Add the properties to run the embedded LDAP server in the 'dev' profile:
+
+[source,properties]
+----
+spring.ldap.embedded.ldif=classpath:test-server.ldif
+spring.ldap.embedded.base-dn=dc=springframework,dc=org
+spring.ldap.embedded.port=8389
+----
+
+* Add additional dependencies:
+
+[source,xml]
+----
+  	<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.ldap</groupId>
+        <artifactId>spring-ldap-core</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-ldap</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.unboundid</groupId>
+        <artifactId>unboundid-ldapsdk</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-test</artifactId>
+        <scope>test</scope>
+    </dependency>
+---- 
+
+* Create _WebSecurityConfig_ class with the guide contents.
+
+* Create _src/main/resources/test-server.ldif_ file with the guide contents.
+
+* Create _SecurityIT_ class for integration testing. Make it run with the _dev_ profile.
+
+=== Test multiple authentication method support
+
+* Test multiple authentication method support for the local administrator user in memory, by updating the _WebSecurityConfig_ class with:
+
+[source,java]
+----
+  public void configure( AuthenticationManagerBuilder auth ) throws Exception
+  {
+
+    // To have many authentication options, just add them to the AuthenticationManagerBuilder in
+    // the order to be checked
+
+    auth.inMemoryAuthentication().withUser( "user" ).password( "password" ).roles( "USER" ).and().withUser( "admin" )
+        .password( "password" ).roles( "USER", "ADMIN" );
+
+    auth.ldapAuthentication().userDnPatterns( "uid={0},ou=people" ).groupSearchBase( "ou=groups" )
+        .contextSource( contextSource() ).passwordCompare().passwordEncoder( new LdapShaPasswordEncoder() )
+        .passwordAttribute( "userPassword" );
+  }
+----
+
+=== Add support to store the local administrator user in the application database
+
+* Create a new entity (_AdminUser_) to store the administration user password.
+
+* Generate related repository and service. Add new method to the repository:
+
+[source,java]
+----
+AdminUser findByLogin( String login );
+----
+
+* Create the _AdminUserDetails_ class.
+
+* Make the _AdminUserService_ implement _UserDetailsService_.
+
+* Replace in memory authentication with a _DaoAuthenticationProvider_ using the _AdminUserService_ in the _WebSecurityConfig_.
+
 
 == Reference documentation
 
