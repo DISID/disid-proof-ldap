@@ -283,6 +283,7 @@
     <dependency>
         <groupId>com.unboundid</groupId>
         <artifactId>unboundid-ldapsdk</artifactId>
+        <scope>provided</scope>
     </dependency>
     <dependency>
         <groupId>org.springframework.security</groupId>
