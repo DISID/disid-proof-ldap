@@ -13,3 +13,6 @@ web mvc setup
 web mvc view setup --type THYMELEAF 
 web mvc controller --all --responseType THYMELEAF 
 // script --file /tmp/log.roo
+entity jpa --class ~.model.AdminUser
+repository jpa --entity ~.model.AdminUser 
+service --entity ~.model.AdminUser 
