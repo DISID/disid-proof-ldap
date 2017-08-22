@@ -25,17 +25,8 @@ public class LocalGroupServiceImpl implements LocalGroupService
   @Autowired
   private LdapService<LocalGroup> ldapService;
 
-  private void deleteGroupsNotInLdap( List<String> currentGroupsInLdap )
-  {
-    // Delete groups in local database not available in LDAP.
-    if ( currentGroupsInLdap != null && !currentGroupsInLdap.isEmpty() )
-    {
-      getLocalGroupRepository().deleteByLdapIdNotIn( currentGroupsInLdap );
-    }
-  }
-
-  // Every minute
-  @Scheduled( fixedDelayString = "60000" )
+  // Every 10 minutes
+  @Scheduled( fixedDelayString = "600000" )
   @Transactional
   public void updateFromLdapGroups()
   {
@@ -61,7 +52,13 @@ public class LocalGroupServiceImpl implements LocalGroupService
       }
     } );
 
-    deleteGroupsNotInLdap( currentGroupsInLdap );
+    // Delete groups in local database not available in LDAP.
+    if ( currentGroupsInLdap != null && !currentGroupsInLdap.isEmpty() )
+    {
+      getLocalGroupRepository().deleteByLdapIdNotIn( currentGroupsInLdap );
+    }
   }
+
+
 
 }

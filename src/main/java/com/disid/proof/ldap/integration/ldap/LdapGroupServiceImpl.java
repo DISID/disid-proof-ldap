@@ -8,6 +8,7 @@ import com.disid.proof.ldap.model.LocalGroup;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 
 @Service
-@T
+@Transactional
 public class LdapGroupServiceImpl implements LdapService<LocalGroup>
 {
   private final LdapTemplate ldapTemplate;
