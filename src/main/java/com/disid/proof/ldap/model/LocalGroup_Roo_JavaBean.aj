@@ -28,6 +28,24 @@ privileged aspect LocalGroup_Roo_JavaBean {
     /**
      * TODO Auto-generated method documentation
      * 
+     * @return String
+     */
+    public String LocalGroup.getLdapId() {
+        return this.ldapId;
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param ldapId
+     */
+    public void LocalGroup.setLdapId(String ldapId) {
+        this.ldapId = ldapId;
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
      * @return Integer
      */
     public Integer LocalGroup.getVersion() {

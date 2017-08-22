@@ -438,6 +438,9 @@ privileged aspect LocalGroupsCollectionThymeleafController_Roo_Thymeleaf {
         if (columnName.equals("id")) {
             builder.addColumn(getMessageSource().getMessage("label_localgroup_id", null, "Id", locale), "id", Long.class.getName(), 50);
         }
+        else if (columnName.equals("ldapId")) {
+            builder.addColumn(getMessageSource().getMessage("label_localgroup_ldapid", null, "Ldap Id", locale), "ldapId", String.class.getName(), 100);
+        }
         else if (columnName.equals("version")) {
             builder.addColumn(getMessageSource().getMessage("label_localgroup_version", null, "Version", locale), "version", Integer.class.getName(), 100);
         }

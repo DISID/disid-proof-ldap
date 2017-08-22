@@ -15,6 +15,7 @@ privileged aspect LocalGroup_Roo_ToString {
     public String LocalGroup.toString() {
         return "LocalGroup {" + 
                 "id='" + id + '\'' + 
+                ", ldapId='" + ldapId + '\'' + 
                 ", version='" + version + '\'' + 
                 ", name='" + name + '\'' + 
                 ", ITERABLE_TO_ADD_CANT_BE_NULL_MESSAGE='" + ITERABLE_TO_ADD_CANT_BE_NULL_MESSAGE + '\'' + 

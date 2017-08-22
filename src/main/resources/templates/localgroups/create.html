@@ -34,10 +34,18 @@
             <fieldset id="containerFields">
               <legend class="sr-only" data-th-text="#{label_data_entity(#{label_localgroup})}">LocalGroup data </legend>
 
+<div class="form-group has-error has-feedback" data-z="94ee601f" id="localgroup-ldapid-field" data-th-classappend="${#fields.hasErrors('ldapId')}? 'has-error has-feedback'" data-th-class="form-group">
+  <label for="ldapId" class="col-md-3 control-label" data-th-text="#{label_localgroup_ldapid}">ldapId</label>
+  <div class="col-md-6">
+    <input id="ldapId" name="ldapId" data-th-value="*{{ldapId}}" type="text" class="form-control" placeholder="ldapId" data-th-placeholder="#{label_localgroup_ldapid}" data-toggle="tooltip" aria-describedby="ldapIdStatus" />
+      <span data-th-classappend="${#fields.hasErrors('ldapId')}? 'glyphicon glyphicon-remove form-control-feedback'" class="glyphicon glyphicon-remove form-control-feedback" data-th-if="${#fields.hasErrors('ldapId')}" aria-hidden="true"></span>
+      <span id="ldapId-error" class="help-block" data-th-if="${#fields.hasErrors('ldapId')}" data-th-errors="*{ldapId}">Error message.</span>
+  </div>
+</div>
 <div class="form-group has-error has-feedback" data-z="4cc996df" id="localgroup-name-field" data-th-classappend="${#fields.hasErrors('name')}? 'has-error has-feedback'" data-th-class="form-group">
   <label for="name" class="col-md-3 control-label" data-th-text="#{label_localgroup_name}">name</label>
   <div class="col-md-6">
-    <input id="name" name="name" data-th-value="*{{name}}" type="text" class="form-control" placeholder="name" data-th-placeholder="#{label_localgroup_name}" data-toggle="tooltip" aria-describedby="nameStatus" maxlength="50" size="50" />
+    <input id="name" name="name" data-th-value="*{{name}}" type="text" class="form-control" placeholder="name" data-th-placeholder="#{label_localgroup_name}" data-toggle="tooltip" aria-describedby="nameStatus" required="required" maxlength="50" size="50" />
       <span data-th-classappend="${#fields.hasErrors('name')}? 'glyphicon glyphicon-remove form-control-feedback'" class="glyphicon glyphicon-remove form-control-feedback" data-th-if="${#fields.hasErrors('name')}" aria-hidden="true"></span>
       <span id="name-error" class="help-block" data-th-if="${#fields.hasErrors('name')}" data-th-errors="*{name}">Error message.</span>
   </div>
