@@ -144,6 +144,10 @@ Taking into account all this information, which is the property most suitable to
 
 One of the properties usually used in this case is the *cn*, although it should be a configurable property, just in case the LDAP server data is using another one, like *uid* or *sAMAccountName*. 
 
+In the case of groups or profiles, to identify them the *cn* field (configurable) will be used, as well as the *group* (configurable) _objectClass_.
+
+En cuanto a los grupos o perfiles, para identificarlos se usará también el *cn* (configurable) y el 
+
 == Reference documentation
 
 === Technical references

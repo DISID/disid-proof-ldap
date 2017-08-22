@@ -65,6 +65,24 @@ public class LdapProperties
    */
   private String uniqueUserEntryAttribute = "cn";
 
+  /**
+   * The attribute in the group entries which uniquely identifies them from the sibling entries.
+   * Defaults to 'cn'.
+   */
+  private String uniqueGroupEntryAttribute = "cn";
+
+  /**
+   * The objectClass of the groups.
+   * Defaults to 'group'.
+   */
+  private String groupObjectClass = "group";
+
+  /**
+   * The attribute in the group entries to read the group name from.
+   * Defaults to 'name'.
+   */
+  private String groupNameEntryAttribute = "name";
+
   public String getUrl()
   {
     return url;
@@ -143,6 +161,36 @@ public class LdapProperties
   public void setUniqueUserEntryAttribute( String uniqueUserEntryAttribute )
   {
     this.uniqueUserEntryAttribute = uniqueUserEntryAttribute;
+  }
+
+  public String getUniqueGroupEntryAttribute()
+  {
+    return uniqueGroupEntryAttribute;
+  }
+
+  public void setUniqueGroupEntryAttribute( String uniqueGroupEntryAttribute )
+  {
+    this.uniqueGroupEntryAttribute = uniqueGroupEntryAttribute;
+  }
+
+  public String getGroupObjectClass()
+  {
+    return groupObjectClass;
+  }
+
+  public void setGroupObjectClass( String groupObjectClass )
+  {
+    this.groupObjectClass = groupObjectClass;
+  }
+
+  public String getGroupNameEntryAttribute()
+  {
+    return groupNameEntryAttribute;
+  }
+
+  public void setGroupNameEntryAttribute( String groupNameEntryAttribute )
+  {
+    this.groupNameEntryAttribute = groupNameEntryAttribute;
   }
 
 }

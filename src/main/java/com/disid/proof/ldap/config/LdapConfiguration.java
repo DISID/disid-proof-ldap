@@ -3,6 +3,7 @@ package com.disid.proof.ldap.config;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
 
 /**
@@ -48,18 +49,18 @@ public class LdapConfiguration
     return contextSource;
   }
 
-  //  /**
-  //   * Generate a {@link LdapTemplate} for Active Directory (AD).
-  //   *
-  //   * @return {@link LdapTemplate}
-  //   */
-  //  @Bean
-  //  public LdapTemplate ldapTemplate()
-  //  {
-  //    LdapTemplate ldap = new LdapTemplate( contextSource() );
-  //    // For Active Directory (AD) users. See LdapTemplate doc.
-  //    ldap.setIgnorePartialResultException( true );
-  //    return ldap;
-  //  }
+  /**
+   * Generate a {@link LdapTemplate} for Active Directory (AD).
+   *
+   * @return {@link LdapTemplate}
+   */
+  @Bean
+  public LdapTemplate ldapTemplate()
+  {
+    LdapTemplate ldap = new LdapTemplate( contextSource() );
+    // For Active Directory (AD) users. See LdapTemplate doc.
+    ldap.setIgnorePartialResultException( true );
+    return ldap;
+  }
 
 }

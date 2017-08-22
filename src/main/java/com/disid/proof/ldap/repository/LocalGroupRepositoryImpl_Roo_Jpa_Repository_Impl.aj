@@ -25,6 +25,12 @@ privileged aspect LocalGroupRepositoryImpl_Roo_Jpa_Repository_Impl {
      * TODO Auto-generated attribute documentation
      * 
      */
+    public static final String LocalGroupRepositoryImpl.LDAP_ID = "ldapId";
+    
+    /**
+     * TODO Auto-generated attribute documentation
+     * 
+     */
     public static final String LocalGroupRepositoryImpl.NAME = "name";
     
     /**
@@ -40,10 +46,11 @@ privileged aspect LocalGroupRepositoryImpl_Roo_Jpa_Repository_Impl {
         
         JPQLQuery<LocalGroup> query = from(localGroup);
         
-        Path<?>[] paths = new Path<?>[] {localGroup.name};        
+        Path<?>[] paths = new Path<?>[] {localGroup.ldapId,localGroup.name};        
         applyGlobalSearch(globalSearch, query, paths);
         
         AttributeMappingBuilder mapping = buildMapper()
+			.map(LDAP_ID, localGroup.ldapId)
 			.map(NAME, localGroup.name);
         
         applyPagination(pageable, query, mapping);
