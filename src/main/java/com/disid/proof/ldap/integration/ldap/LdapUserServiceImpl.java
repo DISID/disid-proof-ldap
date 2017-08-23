@@ -73,15 +73,13 @@ public class LdapUserServiceImpl implements LdapService<LocalUser>
   @Override
   public void save( LocalUser group )
   {
-    // TODO Auto-generated method stub
-
+    throw new UnsupportedOperationException( "Not implemented" );
   }
 
   @Override
   public void delete( LocalUser group )
   {
-    // TODO Auto-generated method stub
-
+    throw new UnsupportedOperationException( "Not implemented" );
   }
 
 }
