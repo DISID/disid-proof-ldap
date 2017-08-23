@@ -25,13 +25,13 @@ privileged aspect LocalUserRepositoryImpl_Roo_Jpa_Repository_Impl {
      * TODO Auto-generated attribute documentation
      * 
      */
-    public static final String LocalUserRepositoryImpl.NAME = "name";
+    public static final String LocalUserRepositoryImpl.LDAP_ID = "ldapId";
     
     /**
      * TODO Auto-generated attribute documentation
      * 
      */
-    public static final String LocalUserRepositoryImpl.LOGIN = "login";
+    public static final String LocalUserRepositoryImpl.NAME = "name";
     
     /**
      * TODO Auto-generated attribute documentation
@@ -58,12 +58,12 @@ privileged aspect LocalUserRepositoryImpl_Roo_Jpa_Repository_Impl {
         
         JPQLQuery<LocalUser> query = from(localUser);
         
-        Path<?>[] paths = new Path<?>[] {localUser.name,localUser.login,localUser.blocked,localUser.newRegistration};        
+        Path<?>[] paths = new Path<?>[] {localUser.ldapId,localUser.name,localUser.blocked,localUser.newRegistration};        
         applyGlobalSearch(globalSearch, query, paths);
         
         AttributeMappingBuilder mapping = buildMapper()
+			.map(LDAP_ID, localUser.ldapId)
 			.map(NAME, localUser.name)
-			.map(LOGIN, localUser.login)
 			.map(BLOCKED, localUser.blocked)
 			.map(NEW_REGISTRATION, localUser.newRegistration);
         

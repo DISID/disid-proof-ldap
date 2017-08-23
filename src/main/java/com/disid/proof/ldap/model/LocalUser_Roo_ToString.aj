@@ -15,9 +15,9 @@ privileged aspect LocalUser_Roo_ToString {
     public String LocalUser.toString() {
         return "LocalUser {" + 
                 "id='" + id + '\'' + 
+                ", ldapId='" + ldapId + '\'' + 
                 ", version='" + version + '\'' + 
                 ", name='" + name + '\'' + 
-                ", login='" + login + '\'' + 
                 ", blocked='" + blocked + '\'' + 
                 ", newRegistration='" + newRegistration + '\'' + 
                 ", ITERABLE_TO_ADD_CANT_BE_NULL_MESSAGE='" + ITERABLE_TO_ADD_CANT_BE_NULL_MESSAGE + '\'' + 

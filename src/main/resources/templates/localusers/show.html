@@ -28,13 +28,13 @@
             <div id="mainEntityFieldSet">
               <h2 data-th-text="#{label_data_entity(#{label_localuser})}">LocalUser data</h2>
               <ul class="list-unstyled" id="containerFields">
+                  <li id="localuser-ldapid-field" data-z="8019522b">
+            	      <strong data-th-text="#{label_localuser_ldapid}">ldapId</strong>
+                    <span data-th-text="*{{ldapId}}">ldapIdValue</span>
+         	        </li>
                   <li id="localuser-name-field" data-z="1de19beb">
             	      <strong data-th-text="#{label_localuser_name}">name</strong>
                     <span data-th-text="*{{name}}">nameValue</span>
-         	        </li>
-                  <li id="localuser-login-field" data-z="49637bd3">
-            	      <strong data-th-text="#{label_localuser_login}">login</strong>
-                    <span data-th-text="*{{login}}">loginValue</span>
          	        </li>
                   <li id="localuser-blocked-field" data-z="773d6273">
             	      <strong data-th-text="#{label_localuser_blocked}">blocked</strong>

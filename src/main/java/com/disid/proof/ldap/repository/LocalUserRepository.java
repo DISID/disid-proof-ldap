@@ -1,5 +1,7 @@
 package com.disid.proof.ldap.repository;
+
 import com.disid.proof.ldap.model.LocalUser;
+
 import org.springframework.roo.addon.layers.repository.jpa.annotations.RooJpaRepository;
 
 /**
@@ -10,4 +12,8 @@ import org.springframework.roo.addon.layers.repository.jpa.annotations.RooJpaRep
  */
 @RooJpaRepository(entity = LocalUser.class)
 public interface LocalUserRepository {
+
+  LocalUser findByLdapId( String ldapId );
+
+  void deleteByLdapIdNotIn( Iterable<String> ldapIds );
 }

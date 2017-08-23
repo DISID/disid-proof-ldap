@@ -28,6 +28,24 @@ privileged aspect LocalUser_Roo_JavaBean {
     /**
      * TODO Auto-generated method documentation
      * 
+     * @return String
+     */
+    public String LocalUser.getLdapId() {
+        return this.ldapId;
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param ldapId
+     */
+    public void LocalUser.setLdapId(String ldapId) {
+        this.ldapId = ldapId;
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
      * @return Integer
      */
     public Integer LocalUser.getVersion() {
@@ -46,37 +64,10 @@ privileged aspect LocalUser_Roo_JavaBean {
     /**
      * TODO Auto-generated method documentation
      * 
-     * @return String
-     */
-    public String LocalUser.getName() {
-        return this.name;
-    }
-    
-    /**
-     * TODO Auto-generated method documentation
-     * 
      * @param name
      */
     public void LocalUser.setName(String name) {
         this.name = name;
-    }
-    
-    /**
-     * TODO Auto-generated method documentation
-     * 
-     * @return String
-     */
-    public String LocalUser.getLogin() {
-        return this.login;
-    }
-    
-    /**
-     * TODO Auto-generated method documentation
-     * 
-     * @param login
-     */
-    public void LocalUser.setLogin(String login) {
-        this.login = login;
     }
     
     /**

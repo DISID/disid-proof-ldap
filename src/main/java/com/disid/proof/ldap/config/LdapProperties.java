@@ -50,11 +50,6 @@ public class LdapProperties
   private String userDnPatterns = "";
 
   /**
-   * The search base for group membership searches. Defaults to "".
-   */
-  private String groupSearchBase = "";
-
-  /**
    * The attribute in the directory which contains the user password. Defaults to "userPassword".
    */
   private String passwordAttribute = "userPassword";
@@ -66,10 +61,27 @@ public class LdapProperties
   private String uniqueUserEntryAttribute = "cn";
 
   /**
+   * The attribute in the user entries to read the user name from.
+   * Defaults to 'cn'.
+   */
+  private String userNameEntryAttribute = "cn";
+
+  /**
+   * The objectClass of the users.
+   * Defaults to 'person'.
+   */
+  private String userObjectClass = "person";
+
+  /**
    * The attribute in the group entries which uniquely identifies them from the sibling entries.
    * Defaults to 'cn'.
    */
   private String uniqueGroupEntryAttribute = "cn";
+
+  /**
+   * The search base for group membership searches. Defaults to "".
+   */
+  private String groupSearchBase = "";
 
   /**
    * The objectClass of the groups.
@@ -185,12 +197,32 @@ public class LdapProperties
 
   public String getGroupNameEntryAttribute()
   {
-    return groupNameEntryAttribute;
+    return getUserNameEntryAttribute();
   }
 
   public void setGroupNameEntryAttribute( String groupNameEntryAttribute )
   {
-    this.groupNameEntryAttribute = groupNameEntryAttribute;
+    this.setUserNameEntryAttribute( groupNameEntryAttribute );
+  }
+
+  public String getUserObjectClass()
+  {
+    return userObjectClass;
+  }
+
+  public void setUserObjectClass( String userObjectClass )
+  {
+    this.userObjectClass = userObjectClass;
+  }
+
+  public String getUserNameEntryAttribute()
+  {
+    return userNameEntryAttribute;
+  }
+
+  public void setUserNameEntryAttribute( String userNameEntryAttribute )
+  {
+    this.userNameEntryAttribute = userNameEntryAttribute;
   }
 
 }
