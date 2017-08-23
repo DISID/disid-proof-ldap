@@ -57,16 +57,6 @@ privileged aspect LocalUserServiceImpl_Roo_Service_Impl {
     /**
      * TODO Auto-generated method documentation
      * 
-     * @param localUser
-     */
-    @Transactional
-    public void LocalUserServiceImpl.delete(LocalUser localUser) {
-        getLocalUserRepository().delete(localUser);
-    }
-    
-    /**
-     * TODO Auto-generated method documentation
-     * 
      * @param entities
      * @return List
      */
@@ -84,17 +74,6 @@ privileged aspect LocalUserServiceImpl_Roo_Service_Impl {
     public void LocalUserServiceImpl.delete(Iterable<Long> ids) {
         List<LocalUser> toDelete = getLocalUserRepository().findAll(ids);
         getLocalUserRepository().deleteInBatch(toDelete);
-    }
-    
-    /**
-     * TODO Auto-generated method documentation
-     * 
-     * @param entity
-     * @return LocalUser
-     */
-    @Transactional
-    public LocalUser LocalUserServiceImpl.save(LocalUser entity) {
-        return getLocalUserRepository().save(entity);
     }
     
     /**

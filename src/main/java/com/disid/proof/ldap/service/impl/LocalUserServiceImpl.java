@@ -31,7 +31,6 @@ public class LocalUserServiceImpl implements LocalUserService, LocalDataProvider
   public void updateFromLdapUsers()
   {
     List<String> currentUsersInLdap = ldapService.findAndUpdateLocal( this );
-
     // Delete groups in local database not available in LDAP.
     if ( currentUsersInLdap != null && !currentUsersInLdap.isEmpty() )
     {
@@ -54,7 +53,32 @@ public class LocalUserServiceImpl implements LocalUserService, LocalDataProvider
   @Override
   public void saveFromLdap( LocalUser localUser )
   {
-    save( localUser );
+    getLocalUserRepository().save( localUser );
   }
 
+  /**
+   * TODO Auto-generated method documentation
+   *
+   * @param entity
+   * @return LocalUser
+   */
+  @Transactional
+  public LocalUser save( LocalUser entity )
+  {
+    LocalUser localUser = getLocalUserRepository().save( entity );
+    ldapService.save( localUser );
+    return localUser;
+  }
+
+  /**
+   * TODO Auto-generated method documentation
+   *
+   * @param localUser
+   */
+  @Transactional
+  public void delete( LocalUser localUser )
+  {
+    getLocalUserRepository().delete( localUser );
+    ldapService.delete( localUser );
+  }
 }

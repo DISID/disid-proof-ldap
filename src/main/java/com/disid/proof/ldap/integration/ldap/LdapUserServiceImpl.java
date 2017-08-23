@@ -6,6 +6,7 @@ import com.disid.proof.ldap.config.LdapProperties;
 import com.disid.proof.ldap.model.LocalUser;
 
 import org.springframework.ldap.core.AttributesMapper;
+import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.support.LdapNameBuilder;
 import org.springframework.stereotype.Service;
@@ -71,15 +72,31 @@ public class LdapUserServiceImpl implements LdapService<LocalUser>
   }
 
   @Override
-  public void save( LocalUser group )
+  public void save( LocalUser user )
   {
-    throw new UnsupportedOperationException( "Not implemented" );
+    LdapName dn = buildDn( user );
+    DirContextAdapter context = new DirContextAdapter( dn );
+
+    context.setAttributeValues( "objectclass",
+        new String[] { "top", "person", "organizationalPerson", "inetOrgPerson" } );
+    context.setAttributeValue( ldapProperties.getUniqueUserEntryAttribute(), user.getLdapId() );
+    context.setAttributeValue( ldapProperties.getUserNameEntryAttribute(), user.getName() );
+    context.setAttributeValue( "sn", user.getName() );
+
+    ldapTemplate.bind( context );
   }
 
   @Override
-  public void delete( LocalUser group )
+  public void delete( LocalUser user )
   {
-    throw new UnsupportedOperationException( "Not implemented" );
+    LdapName dn = buildDn( user );
+    ldapTemplate.unbind( dn );
+  }
+
+  private LdapName buildDn( LocalUser user )
+  {
+    return LdapNameBuilder.newInstance().add( "ou", "people" )
+        .add( ldapProperties.getUniqueUserEntryAttribute(), user.getLdapId() ).build();
   }
 
 }

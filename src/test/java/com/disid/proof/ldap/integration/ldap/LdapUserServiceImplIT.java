@@ -24,8 +24,6 @@ import java.util.List;
 @ActiveProfiles( "dev" )
 public class LdapUserServiceImplIT
 {
-  private static final String[] USER_IDS = new String[] { "ben", "bob", "jerry", "slashguy" };
-
   @Autowired
   private LdapTemplate ldapTemplate;
 
@@ -37,41 +35,81 @@ public class LdapUserServiceImplIT
 
   private LdapUserServiceImpl service;
 
+  private LocalUser ben;
+
+  private LocalUser bob;
+
+  private LocalUser jerry;
+
+  private LocalUser slashguy;
+
+  private LocalUser createTest;
+
   @Before
   public void setup()
   {
     service = new LdapUserServiceImpl( ldapTemplate, ldapProperties );
+
+    ben = new LocalUser();
+    ben.setLdapId( "ben" );
+    ben.setName( "Ben Alex" );
+
+    bob = new LocalUser();
+    bob.setLdapId( "bob" );
+    // Name different from the one in LDAP so it has to be updated
+    bob.setName( "Old name" );
+
+    jerry = new LocalUser();
+    jerry.setLdapId( "jerry" );
+    // Empty name different from the one in LDAP so it has to be updated
+    jerry.setName( null );
+
+    slashguy = new LocalUser();
+    slashguy.setLdapId( "slashguy" );
+    slashguy.setName( "slash/guy" );
+
+    createTest = new LocalUser();
+    createTest.setLdapId( "createtest" );
+    createTest.setName( "Test name" );
+
+    when( provider.getOrCreateByLdapId( ben.getLdapId() ) ).thenReturn( ben );
+    when( provider.getOrCreateByLdapId( bob.getLdapId() ) ).thenReturn( bob );
+    when( provider.getOrCreateByLdapId( jerry.getLdapId() ) ).thenReturn( jerry );
+    when( provider.getOrCreateByLdapId( slashguy.getLdapId() ) ).thenReturn( slashguy );
+    when( provider.getOrCreateByLdapId( createTest.getLdapId() ) ).thenReturn( createTest );
   }
 
   @Test
   public void findAndUpdateLocalLoadsAndUpdatesExpectedValues()
   {
-    LocalUser user1 = new LocalUser();
-    user1.setLdapId( USER_IDS[0] );
-    user1.setName( "Ben Alex" );
-    LocalUser user2 = new LocalUser();
-    user2.setLdapId( USER_IDS[1] );
-    // Name different from the one in LDAP so it has to be updated
-    user2.setName( "Old name" );
-    LocalUser user3 = new LocalUser();
-    user3.setLdapId( USER_IDS[2] );
-    // Empty name different from the one in LDAP so it has to be updated
-    user3.setName( null );
-    LocalUser user4 = new LocalUser();
-    user4.setLdapId( USER_IDS[3] );
-    user4.setName( "slash/guy" );
-
-    when( provider.getOrCreateByLdapId( USER_IDS[0] ) ).thenReturn( user1 );
-    when( provider.getOrCreateByLdapId( USER_IDS[1] ) ).thenReturn( user2 );
-    when( provider.getOrCreateByLdapId( USER_IDS[2] ) ).thenReturn( user3 );
-    when( provider.getOrCreateByLdapId( USER_IDS[3] ) ).thenReturn( user4 );
-
     List<String> values = service.findAndUpdateLocal( provider );
 
-    assertThat( values ).isNotEmpty().hasSize( USER_IDS.length );
+    assertThat( values ).isNotEmpty();
 
-    verify( provider ).saveFromLdap( user2 );
-    verify( provider ).saveFromLdap( user3 );
+    verify( provider ).saveFromLdap( bob );
+    verify( provider ).saveFromLdap( jerry );
+  }
+
+  @Test
+  public void deleteRemovesUserFromLdap()
+  {
+    List<String> initialValues = service.findAndUpdateLocal( provider );
+
+    service.delete( ben );
+
+    List<String> values = service.findAndUpdateLocal( provider );
+    assertThat( values ).isNotEmpty().hasSize( initialValues.size() - 1 );
+  }
+
+  @Test
+  public void saveAddsUserToLdap()
+  {
+    List<String> initialValues = service.findAndUpdateLocal( provider );
+
+    service.save( createTest );
+
+    List<String> values = service.findAndUpdateLocal( provider );
+    assertThat( values ).isNotEmpty().hasSize( initialValues.size() + 1 );
   }
 
 }
