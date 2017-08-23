@@ -19,7 +19,7 @@ import java.util.List;
  *
  */
 @RooServiceImpl( service = LocalGroupService.class )
-public class LocalGroupServiceImpl implements LocalGroupService
+public class LocalGroupServiceImpl implements LocalGroupService, LocalDataProvider<LocalGroup>
 {
 
   @Autowired
@@ -30,27 +30,7 @@ public class LocalGroupServiceImpl implements LocalGroupService
   @Transactional
   public void updateFromLdapGroups()
   {
-    List<String> currentGroupsInLdap = ldapService.findAndUpdateLocal( new LocalDataProvider<LocalGroup>()
-    {
-
-      @Override
-      public void save( LocalGroup localGroup )
-      {
-        save( localGroup );
-      }
-
-      @Override
-      public LocalGroup getOrCreate( String ldapId )
-      {
-        LocalGroup group = getLocalGroupRepository().findByLdapId( ldapId );
-        if ( group == null )
-        {
-          group = new LocalGroup();
-          group.setLdapId( ldapId );
-        }
-        return group;
-      }
-    } );
+    List<String> currentGroupsInLdap = ldapService.findAndUpdateLocal( this );
 
     // Delete groups in local database not available in LDAP.
     if ( currentGroupsInLdap != null && !currentGroupsInLdap.isEmpty() )
@@ -59,6 +39,22 @@ public class LocalGroupServiceImpl implements LocalGroupService
     }
   }
 
+  @Override
+  public void saveFromLdap( LocalGroup localGroup )
+  {
+    saveFromLdap( localGroup );
+  }
 
+  @Override
+  public LocalGroup getOrCreateByLdapId( String ldapId )
+  {
+    LocalGroup group = getLocalGroupRepository().findByLdapId( ldapId );
+    if ( group == null )
+    {
+      group = new LocalGroup();
+      group.setLdapId( ldapId );
+    }
+    return group;
+  }
 
 }

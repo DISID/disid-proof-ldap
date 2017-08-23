@@ -50,8 +50,8 @@ public class LdapGroupServiceImpl implements LdapService<LocalGroup>
     {
       String ldapId = (String) attrs.get( ldapProperties.getUniqueGroupEntryAttribute() ).get();
 
-      // Find the localGroup in the database
-      LocalGroup localGroup = provider.getOrCreate( ldapId );
+      // Find in the application database
+      LocalGroup localGroup = provider.getOrCreateByLdapId( ldapId );
 
       String name = (String) attrs.get( ldapProperties.getGroupNameEntryAttribute() ).get();
 
@@ -60,7 +60,7 @@ public class LdapGroupServiceImpl implements LdapService<LocalGroup>
         // Update the name attribute
         localGroup.setName( ldapId );
         // Store the changes
-        provider.save( localGroup );
+        provider.saveFromLdap( localGroup );
       }
       return ldapId;
     }
