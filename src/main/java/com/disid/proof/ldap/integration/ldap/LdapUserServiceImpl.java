@@ -71,14 +71,7 @@ public class LdapUserServiceImpl implements LdapService<LocalUser>
   }
 
   @Override
-  public void create( LocalUser group )
-  {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void update( LocalUser group )
+  public void save( LocalUser group )
   {
     // TODO Auto-generated method stub
 

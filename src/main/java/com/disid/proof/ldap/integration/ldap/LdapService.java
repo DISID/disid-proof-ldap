@@ -7,9 +7,7 @@ public interface LdapService<T>
 
   List<String> findAndUpdateLocal( LocalDataProvider<T> provider );
 
-  void create( T group );
-
-  void update( T group );
+  void save( T group );
 
   void delete( T group );
 

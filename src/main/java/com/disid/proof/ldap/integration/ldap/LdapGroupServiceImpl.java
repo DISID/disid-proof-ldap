@@ -67,24 +67,15 @@ public class LdapGroupServiceImpl implements LdapService<LocalGroup>
   }
 
   @Override
-  public void create( LocalGroup group )
+  public void save( LocalGroup group )
   {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void update( LocalGroup group )
-  {
-    // TODO Auto-generated method stub
-
+    throw new UnsupportedOperationException( "Not implemented" );
   }
 
   @Override
   public void delete( LocalGroup group )
   {
-    // TODO Auto-generated method stub
-
+    throw new UnsupportedOperationException( "Not implemented" );
   }
 
 }
