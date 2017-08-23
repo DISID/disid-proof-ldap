@@ -64,6 +64,15 @@ privileged aspect LocalUser_Roo_JavaBean {
     /**
      * TODO Auto-generated method documentation
      * 
+     * @return String
+     */
+    public String LocalUser.getName() {
+        return this.name;
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
      * @param name
      */
     public void LocalUser.setName(String name) {

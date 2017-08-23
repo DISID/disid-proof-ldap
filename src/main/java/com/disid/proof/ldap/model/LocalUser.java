@@ -59,15 +59,4 @@ public class LocalUser {
      */
     private boolean newRegistration;
 
-
-  /**
-   * TODO Auto-generated method documentation
-   * 
-   * @return String
-   */
-  public String getName()
-  {
-    return this.name;
-  }
-
 }
