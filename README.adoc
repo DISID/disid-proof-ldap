@@ -28,8 +28,8 @@ Proof of Spring Boot app with LDAP authentication and groups and users managemen
 ** [X] Connect to the LDAP server
 ** [X] Filter groups from the LDAP server
 ** [X] Filter users from the LDAP server
-** [ ] Uniquely identification of single users
-** [ ] Display users information
+** [X] Uniquely identification of single users
+** [X] Display users information
 
 * [ ] Document the meaning and when to use the LDAP properties.
 
