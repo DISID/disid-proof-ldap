@@ -3,6 +3,7 @@
 
 package com.disid.proof.ldap.service.impl;
 
+import com.disid.proof.ldap.model.LocalGroup;
 import com.disid.proof.ldap.model.LocalUser;
 import com.disid.proof.ldap.repository.LocalUserRepository;
 import com.disid.proof.ldap.service.impl.LocalUserServiceImpl;
@@ -133,6 +134,28 @@ privileged aspect LocalUserServiceImpl_Roo_Service_Impl {
      */
     public Page<LocalUser> LocalUserServiceImpl.findAll(GlobalSearch globalSearch, Pageable pageable) {
         return getLocalUserRepository().findAll(globalSearch, pageable);
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroups
+     * @param globalSearch
+     * @param pageable
+     * @return Page
+     */
+    public Page<LocalUser> LocalUserServiceImpl.findByLocalGroupsContains(LocalGroup localGroups, GlobalSearch globalSearch, Pageable pageable) {
+        return getLocalUserRepository().findByLocalGroupsContains(localGroups, globalSearch, pageable);
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroups
+     * @return Long
+     */
+    public long LocalUserServiceImpl.countByLocalGroupsContains(LocalGroup localGroups) {
+        return getLocalUserRepository().countByLocalGroupsContains(localGroups);
     }
     
     /**

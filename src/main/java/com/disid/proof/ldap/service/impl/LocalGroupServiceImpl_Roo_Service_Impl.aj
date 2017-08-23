@@ -4,11 +4,17 @@
 package com.disid.proof.ldap.service.impl;
 
 import com.disid.proof.ldap.model.LocalGroup;
+import com.disid.proof.ldap.model.LocalUser;
 import com.disid.proof.ldap.repository.LocalGroupRepository;
+import com.disid.proof.ldap.service.api.LocalUserService;
 import com.disid.proof.ldap.service.impl.LocalGroupServiceImpl;
 import io.springlets.data.domain.GlobalSearch;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,13 +33,21 @@ privileged aspect LocalGroupServiceImpl_Roo_Service_Impl {
     private LocalGroupRepository LocalGroupServiceImpl.localGroupRepository;
     
     /**
+     * TODO Auto-generated attribute documentation
+     * 
+     */
+    private LocalUserService LocalGroupServiceImpl.localUserService;
+    
+    /**
      * TODO Auto-generated constructor documentation
      * 
      * @param localGroupRepository
+     * @param localUserService
      */
     @Autowired
-    public LocalGroupServiceImpl.new(LocalGroupRepository localGroupRepository) {
+    public LocalGroupServiceImpl.new(LocalGroupRepository localGroupRepository, @Lazy LocalUserService localUserService) {
         setLocalGroupRepository(localGroupRepository);
+        setLocalUserService(localUserService);
     }
 
     /**
@@ -57,10 +71,89 @@ privileged aspect LocalGroupServiceImpl_Roo_Service_Impl {
     /**
      * TODO Auto-generated method documentation
      * 
+     * @return LocalUserService
+     */
+    public LocalUserService LocalGroupServiceImpl.getLocalUserService() {
+        return localUserService;
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localUserService
+     */
+    public void LocalGroupServiceImpl.setLocalUserService(LocalUserService localUserService) {
+        this.localUserService = localUserService;
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroup
+     * @param usersToAdd
+     * @return LocalGroup
+     */
+    @Transactional
+    public LocalGroup LocalGroupServiceImpl.addToUsers(LocalGroup localGroup, Iterable<Long> usersToAdd) {
+        List<LocalUser> users = getLocalUserService().findAll(usersToAdd);
+        localGroup.addToUsers(users);
+        return getLocalGroupRepository().save(localGroup);
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroup
+     * @param usersToRemove
+     * @return LocalGroup
+     */
+    @Transactional
+    public LocalGroup LocalGroupServiceImpl.removeFromUsers(LocalGroup localGroup, Iterable<Long> usersToRemove) {
+        List<LocalUser> users = getLocalUserService().findAll(usersToRemove);
+        localGroup.removeFromUsers(users);
+        return getLocalGroupRepository().save(localGroup);
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroup
+     * @param users
+     * @return LocalGroup
+     */
+    @Transactional
+    public LocalGroup LocalGroupServiceImpl.setUsers(LocalGroup localGroup, Iterable<Long> users) {
+        List<LocalUser> items = getLocalUserService().findAll(users);
+        Set<LocalUser> currents = localGroup.getUsers();
+        Set<LocalUser> toRemove = new HashSet<LocalUser>();
+        for (Iterator<LocalUser> iterator = currents.iterator(); iterator.hasNext();) {
+            LocalUser nextLocalUser = iterator.next();
+            if (items.contains(nextLocalUser)) {
+                items.remove(nextLocalUser);
+            } else {
+                toRemove.add(nextLocalUser);
+            }
+        }
+        localGroup.removeFromUsers(toRemove);
+        localGroup.addToUsers(items);
+        // Force the version update of the parent side to know that the parent has changed
+        // because it has new books assigned
+        localGroup.setVersion(localGroup.getVersion() + 1);
+        return getLocalGroupRepository().save(localGroup);
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
      * @param localGroup
      */
     @Transactional
     public void LocalGroupServiceImpl.delete(LocalGroup localGroup) {
+        // Clear bidirectional many-to-many parent relationship with LocalUser
+        for (LocalUser item : localGroup.getUsers()) {
+            item.getLocalGroups().remove(localGroup);
+        }
+        
         getLocalGroupRepository().delete(localGroup);
     }
     

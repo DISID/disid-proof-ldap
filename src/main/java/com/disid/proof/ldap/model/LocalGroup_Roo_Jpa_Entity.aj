@@ -4,8 +4,10 @@
 package com.disid.proof.ldap.model;
 
 import com.disid.proof.ldap.model.LocalGroup;
+import com.disid.proof.ldap.model.LocalUser;
 import io.springlets.format.EntityFormat;
 import javax.persistence.Entity;
+import org.springframework.util.Assert;
 
 privileged aspect LocalGroup_Roo_Jpa_Entity {
     
@@ -24,5 +26,31 @@ privileged aspect LocalGroup_Roo_Jpa_Entity {
      * 
      */
     public static final String LocalGroup.ITERABLE_TO_REMOVE_CANT_BE_NULL_MESSAGE = "The given Iterable of items to add can't be null!";
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param usersToAdd
+     */
+    public void LocalGroup.addToUsers(Iterable<LocalUser> usersToAdd) {
+        Assert.notNull(usersToAdd, ITERABLE_TO_ADD_CANT_BE_NULL_MESSAGE);
+        for (LocalUser item : usersToAdd) {
+            this.users.add(item);
+            item.getLocalGroups().add(this);
+        }
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param usersToRemove
+     */
+    public void LocalGroup.removeFromUsers(Iterable<LocalUser> usersToRemove) {
+        Assert.notNull(usersToRemove, ITERABLE_TO_REMOVE_CANT_BE_NULL_MESSAGE);
+        for (LocalUser item : usersToRemove) {
+            this.users.remove(item);
+            item.getLocalGroups().remove(this);
+        }
+    }
     
 }

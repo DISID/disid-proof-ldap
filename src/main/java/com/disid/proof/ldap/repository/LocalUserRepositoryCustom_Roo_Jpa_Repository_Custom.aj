@@ -3,6 +3,7 @@
 
 package com.disid.proof.ldap.repository;
 
+import com.disid.proof.ldap.model.LocalGroup;
 import com.disid.proof.ldap.model.LocalUser;
 import com.disid.proof.ldap.repository.LocalUserRepositoryCustom;
 import io.springlets.data.domain.GlobalSearch;
@@ -10,6 +11,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 privileged aspect LocalUserRepositoryCustom_Roo_Jpa_Repository_Custom {
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroups
+     * @param globalSearch
+     * @param pageable
+     * @return Page
+     */
+    public abstract Page<LocalUser> LocalUserRepositoryCustom.findByLocalGroupsContains(LocalGroup localGroups, GlobalSearch globalSearch, Pageable pageable);
     
     /**
      * TODO Auto-generated method documentation

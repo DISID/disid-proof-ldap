@@ -3,6 +3,7 @@
 
 package com.disid.proof.ldap.repository;
 
+import com.disid.proof.ldap.model.LocalGroup;
 import com.disid.proof.ldap.model.LocalUser;
 import com.disid.proof.ldap.model.QLocalUser;
 import com.disid.proof.ldap.repository.LocalUserRepositoryCustom;
@@ -14,6 +15,7 @@ import io.springlets.data.jpa.repository.support.QueryDslRepositorySupportExt.At
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 privileged aspect LocalUserRepositoryImpl_Roo_Jpa_Repository_Impl {
     
@@ -58,6 +60,38 @@ privileged aspect LocalUserRepositoryImpl_Roo_Jpa_Repository_Impl {
         
         JPQLQuery<LocalUser> query = from(localUser);
         
+        Path<?>[] paths = new Path<?>[] {localUser.ldapId,localUser.name,localUser.blocked,localUser.newRegistration};        
+        applyGlobalSearch(globalSearch, query, paths);
+        
+        AttributeMappingBuilder mapping = buildMapper()
+			.map(LDAP_ID, localUser.ldapId)
+			.map(NAME, localUser.name)
+			.map(BLOCKED, localUser.blocked)
+			.map(NEW_REGISTRATION, localUser.newRegistration);
+        
+        applyPagination(pageable, query, mapping);
+        applyOrderById(query);
+        
+        return loadPage(query, pageable, localUser);
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroups
+     * @param globalSearch
+     * @param pageable
+     * @return Page
+     */
+    public Page<LocalUser> LocalUserRepositoryImpl.findByLocalGroupsContains(LocalGroup localGroups, GlobalSearch globalSearch, Pageable pageable) {
+        
+        QLocalUser localUser = QLocalUser.localUser;
+        
+        JPQLQuery<LocalUser> query = from(localUser);
+        
+        Assert.notNull(localGroups, "localGroups is required");
+        
+        query.where(localUser.localGroups.contains(localGroups));
         Path<?>[] paths = new Path<?>[] {localUser.ldapId,localUser.name,localUser.blocked,localUser.newRegistration};        
         applyGlobalSearch(globalSearch, query, paths);
         

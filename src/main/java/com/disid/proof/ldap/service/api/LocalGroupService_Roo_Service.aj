@@ -92,4 +92,31 @@ privileged aspect LocalGroupService_Roo_Service {
      */
     public abstract Page<LocalGroup> LocalGroupService.findAll(GlobalSearch globalSearch, Pageable pageable);
     
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroup
+     * @param usersToAdd
+     * @return LocalGroup
+     */
+    public abstract LocalGroup LocalGroupService.addToUsers(LocalGroup localGroup, Iterable<Long> usersToAdd);
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroup
+     * @param usersToRemove
+     * @return LocalGroup
+     */
+    public abstract LocalGroup LocalGroupService.removeFromUsers(LocalGroup localGroup, Iterable<Long> usersToRemove);
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroup
+     * @param users
+     * @return LocalGroup
+     */
+    public abstract LocalGroup LocalGroupService.setUsers(LocalGroup localGroup, Iterable<Long> users);
+    
 }

@@ -3,6 +3,7 @@
 
 package com.disid.proof.ldap.repository;
 
+import com.disid.proof.ldap.model.LocalGroup;
 import com.disid.proof.ldap.model.LocalUser;
 import com.disid.proof.ldap.repository.LocalUserRepository;
 import com.disid.proof.ldap.repository.LocalUserRepositoryCustom;
@@ -16,5 +17,13 @@ privileged aspect LocalUserRepository_Roo_Jpa_Repository {
     declare parents: LocalUserRepository extends LocalUserRepositoryCustom;
     
     declare @type: LocalUserRepository: @Transactional(readOnly = true);
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroups
+     * @return Long
+     */
+    public abstract long LocalUserRepository.countByLocalGroupsContains(LocalGroup localGroups);
     
 }

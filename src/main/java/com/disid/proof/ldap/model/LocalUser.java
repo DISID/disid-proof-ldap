@@ -3,7 +3,6 @@ import org.springframework.roo.addon.javabean.annotations.RooEquals;
 import org.springframework.roo.addon.javabean.annotations.RooJavaBean;
 import org.springframework.roo.addon.javabean.annotations.RooToString;
 import org.springframework.roo.addon.jpa.annotations.entity.RooJpaEntity;
-
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 
 /**
  * = LocalUser
@@ -59,4 +62,10 @@ public class LocalUser {
      */
     private boolean newRegistration;
 
+    /**
+     * TODO Auto-generated attribute documentation
+     *
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<LocalGroup> localGroups = new HashSet<LocalGroup>();
 }

@@ -3,7 +3,9 @@
 
 package com.disid.proof.ldap.model;
 
+import com.disid.proof.ldap.model.LocalGroup;
 import com.disid.proof.ldap.model.LocalUser;
+import java.util.Set;
 
 privileged aspect LocalUser_Roo_JavaBean {
     
@@ -113,6 +115,24 @@ privileged aspect LocalUser_Roo_JavaBean {
      */
     public void LocalUser.setNewRegistration(boolean newRegistration) {
         this.newRegistration = newRegistration;
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @return Set
+     */
+    public Set<LocalGroup> LocalUser.getLocalGroups() {
+        return this.localGroups;
+    }
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroups
+     */
+    public void LocalUser.setLocalGroups(Set<LocalGroup> localGroups) {
+        this.localGroups = localGroups;
     }
     
 }

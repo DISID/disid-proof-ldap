@@ -3,6 +3,7 @@
 
 package com.disid.proof.ldap.service.api;
 
+import com.disid.proof.ldap.model.LocalGroup;
 import com.disid.proof.ldap.model.LocalUser;
 import com.disid.proof.ldap.service.api.LocalUserService;
 import io.springlets.data.domain.GlobalSearch;
@@ -91,5 +92,23 @@ privileged aspect LocalUserService_Roo_Service {
      * @return Page
      */
     public abstract Page<LocalUser> LocalUserService.findAll(GlobalSearch globalSearch, Pageable pageable);
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroups
+     * @param globalSearch
+     * @param pageable
+     * @return Page
+     */
+    public abstract Page<LocalUser> LocalUserService.findByLocalGroupsContains(LocalGroup localGroups, GlobalSearch globalSearch, Pageable pageable);
+    
+    /**
+     * TODO Auto-generated method documentation
+     * 
+     * @param localGroups
+     * @return Long
+     */
+    public abstract long LocalUserService.countByLocalGroupsContains(LocalGroup localGroups);
     
 }
