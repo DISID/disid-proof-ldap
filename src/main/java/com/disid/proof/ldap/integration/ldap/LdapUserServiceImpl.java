@@ -2,14 +2,12 @@ package com.disid.proof.ldap.integration.ldap;
 
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
-import com.disid.proof.ldap.config.LdapProperties;
 import com.disid.proof.ldap.model.LocalUser;
 
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.support.LdapNameBuilder;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,28 +16,33 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.ldap.LdapName;
 
-@Service
 @Transactional
 public class LdapUserServiceImpl implements LdapService<LocalUser>
 {
   private final LdapTemplate ldapTemplate;
 
-  private final LdapProperties ldapProperties;
+  private final String objectClass;
 
-  public LdapUserServiceImpl( LdapTemplate ldapTemplate, LdapProperties ldapProperties )
+  private final String idAttribute;
+
+  private final String nameAttribute;
+
+  public LdapUserServiceImpl( LdapTemplate ldapTemplate, String objectClass, String idAttribute, String nameAttribute )
   {
     this.ldapTemplate = ldapTemplate;
-    this.ldapProperties = ldapProperties;
+    this.objectClass = objectClass;
+    this.idAttribute = idAttribute;
+    this.nameAttribute = nameAttribute;
   }
 
   @Override
   public List<String> findAndUpdateLocal( LocalDataProvider<LocalUser> provider )
   {
     LdapName usersBaseDN = LdapNameBuilder.newInstance().add( "ou", "people" ).build();
-    return ldapTemplate.search(
-        query().base( usersBaseDN ).where( "objectclass" ).is( ldapProperties.getUserObjectClass() ),
+    return ldapTemplate.search( query().base( usersBaseDN ).where( "objectclass" ).is( objectClass ),
         new LocalUserLdapIdAttributesMapper( provider ) );
   }
+
 
   private class LocalUserLdapIdAttributesMapper implements AttributesMapper<String>
   {
@@ -53,12 +56,12 @@ public class LdapUserServiceImpl implements LdapService<LocalUser>
 
     public String mapFromAttributes( Attributes attrs ) throws NamingException
     {
-      String ldapId = (String) attrs.get( ldapProperties.getUniqueUserEntryAttribute() ).get();
+      String ldapId = (String) attrs.get( idAttribute ).get();
 
       // Find in the application database
       LocalUser localUser = provider.getOrCreateByLdapId( ldapId );
 
-      String name = (String) attrs.get( ldapProperties.getUserNameEntryAttribute() ).get();
+      String name = (String) attrs.get( nameAttribute ).get();
 
       if ( !name.equals( localUser.getName() ) )
       {
@@ -79,8 +82,8 @@ public class LdapUserServiceImpl implements LdapService<LocalUser>
 
     context.setAttributeValues( "objectclass",
         new String[] { "top", "person", "organizationalPerson", "inetOrgPerson" } );
-    context.setAttributeValue( ldapProperties.getUniqueUserEntryAttribute(), user.getLdapId() );
-    context.setAttributeValue( ldapProperties.getUserNameEntryAttribute(), user.getName() );
+    context.setAttributeValue( this.idAttribute, user.getLdapId() );
+    context.setAttributeValue( this.nameAttribute, user.getName() );
     context.setAttributeValue( "sn", user.getName() );
 
     ldapTemplate.bind( context );
@@ -95,8 +98,7 @@ public class LdapUserServiceImpl implements LdapService<LocalUser>
 
   private LdapName buildDn( LocalUser user )
   {
-    return LdapNameBuilder.newInstance().add( "ou", "people" )
-        .add( ldapProperties.getUniqueUserEntryAttribute(), user.getLdapId() ).build();
+    return LdapNameBuilder.newInstance().add( "ou", "people" ).add( this.idAttribute, user.getLdapId() ).build();
   }
 
 }

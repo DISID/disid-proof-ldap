@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.disid.proof.ldap.config.LdapProperties;
 import com.disid.proof.ldap.model.LocalUser;
 
 import org.junit.Before;
@@ -27,9 +26,6 @@ public class LdapUserServiceImplIT
   @Autowired
   private LdapTemplate ldapTemplate;
 
-  @Autowired
-  private LdapProperties ldapProperties;
-
   @Mock
   private LocalDataProvider<LocalUser> provider;
 
@@ -48,7 +44,7 @@ public class LdapUserServiceImplIT
   @Before
   public void setup()
   {
-    service = new LdapUserServiceImpl( ldapTemplate, ldapProperties );
+    service = new LdapUserServiceImpl( ldapTemplate, "person", "uid", "cn" );
 
     ben = new LocalUser();
     ben.setLdapId( "ben" );

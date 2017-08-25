@@ -1,5 +1,9 @@
 package com.disid.proof.ldap.config;
 
+import com.disid.proof.ldap.integration.ldap.LdapService;
+import com.disid.proof.ldap.integration.ldap.LdapUserServiceImpl;
+import com.disid.proof.ldap.model.LocalUser;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,12 +43,15 @@ public class LdapConfiguration
   public DefaultSpringSecurityContextSource contextSource()
   {
     DefaultSpringSecurityContextSource contextSource = null;
-    if ( StringUtils.isNotEmpty( ldapProperties.getUrl() ) )
+
+    LdapProperties.Context context = ldapProperties.getContext();
+
+    if ( StringUtils.isNotEmpty( context.getUrl() ) )
     {
-      contextSource = new DefaultSpringSecurityContextSource( ldapProperties.getUrl() );
-      contextSource.setBase( ldapProperties.getBaseDn() );
-      contextSource.setUserDn( ldapProperties.getUserDn() );
-      contextSource.setPassword( ldapProperties.getPassword() );
+      contextSource = new DefaultSpringSecurityContextSource( context.getUrl() );
+      contextSource.setBase( context.getBaseDn() );
+      contextSource.setUserDn( context.getUserDn() );
+      contextSource.setPassword( context.getPassword() );
     }
     return contextSource;
   }
@@ -61,6 +68,14 @@ public class LdapConfiguration
     // For Active Directory (AD) users. See LdapTemplate doc.
     ldap.setIgnorePartialResultException( true );
     return ldap;
+  }
+
+  @Bean
+  public LdapService<LocalUser> ldapUserService()
+  {
+    LdapProperties.Sync.User user = ldapProperties.getSync().getUser();
+    return new LdapUserServiceImpl( ldapTemplate(), user.getObjectClass(), user.getIdAttribute(),
+        user.getNameAttribute() );
   }
 
 }

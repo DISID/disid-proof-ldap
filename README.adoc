@@ -134,7 +134,9 @@ AdminUser findByLogin( String login );
 * Add additional properties to _LdapProperties_ and the _application*.properties_ files.
 * Use the _LdapProperties_ component in the _WebSecurityConfiguration_ in the configuration of the LDAP authentication.
 
-=== Which property to use as unique to identify users/groups
+=== Which property to use as ... 
+
+==== Unique to identify users/groups
 
 From the documentation, LDAP by itself doesn't define a single property to be unique. What it defines to be unique is the DN (Distinguished Name), which is a combination of properties of an LDAP entry and its parent entries that uniquely identifies it (see https://stackoverflow.com/questions/7814569/what-do-people-use-for-cn-with-inetorgperson-in-ldap-directories or https://stackoverflow.com/questions/18756688/what-are-cn-ou-dc-in-an-ldap-search)
 
@@ -145,8 +147,14 @@ Taking into account all this information, which is the property most suitable to
 One of the properties usually used in this case is the *cn*, although it should be a configurable property, just in case the LDAP server data is using another one, like *uid* or *sAMAccountName*. 
 
 In the case of groups or profiles, to identify them the *cn* field (configurable) will be used, as well as the *group* (configurable) _objectClass_.
+	
+=== Display users/groups name
 
-En cuanto a los grupos o perfiles, para identificarlos se usará también el *cn* (configurable) y el 
+TODO
+
+=== Relate users and groups
+
+TODO
 
 == Reference documentation
 

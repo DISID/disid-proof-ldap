@@ -21,18 +21,18 @@ public class LdapGroupServiceImpl implements LdapService<LocalGroup>
 {
   private final LdapTemplate ldapTemplate;
 
-  private final LdapProperties ldapProperties;
+  private final LdapProperties.Sync.Group ldapGroupProperties;
 
-  public LdapGroupServiceImpl( LdapTemplate ldapTemplate, LdapProperties ldapProperties )
+  public LdapGroupServiceImpl( LdapTemplate ldapTemplate, LdapProperties ldapGroupProperties )
   {
     this.ldapTemplate = ldapTemplate;
-    this.ldapProperties = ldapProperties;
+    this.ldapGroupProperties = ldapGroupProperties.getSync().getGroup();
   }
 
   @Override
   public List<String> findAndUpdateLocal( LocalDataProvider<LocalGroup> provider )
   {
-    return ldapTemplate.search( query().where( "objectclass" ).is( ldapProperties.getGroupObjectClass() ),
+    return ldapTemplate.search( query().where( "objectclass" ).is( ldapGroupProperties.getObjectClass() ),
         new LocalGroupLdapIdAttributesMapper( provider ) );
   }
 
@@ -48,12 +48,12 @@ public class LdapGroupServiceImpl implements LdapService<LocalGroup>
 
     public String mapFromAttributes( Attributes attrs ) throws NamingException
     {
-      String ldapId = (String) attrs.get( ldapProperties.getUniqueGroupEntryAttribute() ).get();
+      String ldapId = (String) attrs.get( ldapGroupProperties.getIdAttribute() ).get();
 
       // Find in the application database
       LocalGroup localGroup = provider.getOrCreateByLdapId( ldapId );
 
-      String name = (String) attrs.get( ldapProperties.getGroupNameEntryAttribute() ).get();
+      String name = (String) attrs.get( ldapGroupProperties.getNameAttribute() ).get();
 
       if ( !name.equals( localGroup.getName() ) )
       {
