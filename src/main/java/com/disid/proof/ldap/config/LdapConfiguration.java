@@ -1,7 +1,9 @@
 package com.disid.proof.ldap.config;
 
+import com.disid.proof.ldap.integration.ldap.LdapGroupServiceImpl;
 import com.disid.proof.ldap.integration.ldap.LdapService;
 import com.disid.proof.ldap.integration.ldap.LdapUserServiceImpl;
+import com.disid.proof.ldap.model.LocalGroup;
 import com.disid.proof.ldap.model.LocalUser;
 
 import org.apache.commons.lang3.StringUtils;
@@ -76,6 +78,14 @@ public class LdapConfiguration
     LdapProperties.Sync.User user = ldapProperties.getSync().getUser();
     return new LdapUserServiceImpl( ldapTemplate(), user.getObjectClass(), user.getIdAttribute(),
         user.getNameAttribute() );
+  }
+
+  @Bean
+  public LdapService<LocalGroup> ldapGroupService()
+  {
+    LdapProperties.Sync.Group group = ldapProperties.getSync().getGroup();
+    return new LdapGroupServiceImpl( ldapTemplate(), group.getObjectClass(), group.getIdAttribute(),
+        group.getNameAttribute() );
   }
 
 }

@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.disid.proof.ldap.config.LdapProperties;
 import com.disid.proof.ldap.model.LocalGroup;
 
 import org.junit.Before;
@@ -29,9 +28,6 @@ public class LdapGroupServiceImplIT
   @Autowired
   private LdapTemplate ldapTemplate;
 
-  @Autowired
-  private LdapProperties ldapProperties;
-
   @Mock
   private LocalDataProvider<LocalGroup> provider;
 
@@ -40,7 +36,7 @@ public class LdapGroupServiceImplIT
   @Before
   public void setup()
   {
-    service = new LdapGroupServiceImpl( ldapTemplate, ldapProperties );
+    service = new LdapGroupServiceImpl( ldapTemplate, "groupOfUniqueNames", "cn", "cn" );
   }
 
   @Test
