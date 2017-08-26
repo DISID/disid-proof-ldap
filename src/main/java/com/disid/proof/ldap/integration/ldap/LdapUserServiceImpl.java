@@ -36,13 +36,17 @@ public class LdapUserServiceImpl implements LdapService<LocalUser>
   }
 
   @Override
-  public List<String> findAndUpdateLocal( LocalDataProvider<LocalUser> provider )
+  public List<String> synchronize( LocalDataProvider<LocalUser> provider )
   {
     LdapName usersBaseDN = LdapNameBuilder.newInstance().add( "ou", "people" ).build();
-    return ldapTemplate.search( query().base( usersBaseDN ).where( "objectclass" ).is( objectClass ),
+    List<String> ldapIds = ldapTemplate.search( query().base( usersBaseDN ).where( "objectclass" ).is( objectClass ),
         new LocalUserLdapIdAttributesMapper( provider ) );
+    if ( ldapIds != null && !ldapIds.isEmpty() )
+    {
+      provider.deleteByLdapIdNotIn( ldapIds );
+    }
+    return ldapIds;
   }
-
 
   private class LocalUserLdapIdAttributesMapper implements AttributesMapper<String>
   {

@@ -13,16 +13,14 @@ import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
 
 /**
- * = LdapConfiguration
- *
- * LDAP Configuration
+ * Configuration of LDAP services.
  */
 @Configuration
 public class LdapConfiguration
 {
 
   /**
-   * LDAP properties
+   * LDAP configuration properties
    */
   private final LdapProperties ldapProperties;
 
@@ -37,7 +35,7 @@ public class LdapConfiguration
   }
 
   /**
-   * Set base LDAP path context source.
+   * Creates the LDAP context source with the parameters to connect to the LDAP server.
    *
    * @return {@link DefaultSpringSecurityContextSource}
    */
@@ -59,9 +57,9 @@ public class LdapConfiguration
   }
 
   /**
-   * Generate a {@link LdapTemplate} for Active Directory (AD).
+   * Creates a {@link LdapTemplate} for Active Directory (AD).
    *
-   * @return {@link LdapTemplate}
+   * @return the template to perform LDAP operations
    */
   @Bean
   public LdapTemplate ldapTemplate()
@@ -72,6 +70,10 @@ public class LdapConfiguration
     return ldap;
   }
 
+  /**
+   * Returns the service to manage users in the LDAP service.
+   * @return the LDAP users service
+   */
   @Bean
   public LdapService<LocalUser> ldapUserService()
   {
@@ -80,6 +82,10 @@ public class LdapConfiguration
         user.getNameAttribute() );
   }
 
+  /**
+   * Returns the service to manage groups in the LDAP service.
+   * @return the LDAP groups service
+   */
   @Bean
   public LdapService<LocalGroup> ldapGroupService()
   {

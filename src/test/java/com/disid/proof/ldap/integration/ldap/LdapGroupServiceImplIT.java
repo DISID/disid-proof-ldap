@@ -16,6 +16,7 @@ import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RunWith( SpringRunner.class )
@@ -58,12 +59,16 @@ public class LdapGroupServiceImplIT
     when( provider.getOrCreateByLdapId( GROUP_IDS[1] ) ).thenReturn( group2 );
     when( provider.getOrCreateByLdapId( GROUP_IDS[2] ) ).thenReturn( group3 );
 
-    List<String> values = service.findAndUpdateLocal( provider );
+    List<String> values = service.synchronize( provider );
 
     assertThat( values ).isNotEmpty().hasSize( GROUP_IDS.length );
 
+    verify( provider ).getOrCreateByLdapId( GROUP_IDS[0] );
+    verify( provider ).getOrCreateByLdapId( GROUP_IDS[1] );
+    verify( provider ).getOrCreateByLdapId( GROUP_IDS[2] );
     verify( provider ).saveFromLdap( group2 );
     verify( provider ).saveFromLdap( group3 );
+    verify( provider ).deleteByLdapIdNotIn( Arrays.asList( GROUP_IDS ) );
   }
 
 }

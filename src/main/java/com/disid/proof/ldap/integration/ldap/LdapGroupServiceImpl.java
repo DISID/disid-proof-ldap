@@ -13,6 +13,9 @@ import java.util.List;
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 
+/**
+ * Service to manage groups in the LDAP service.
+ */
 @Transactional
 public class LdapGroupServiceImpl implements LdapService<LocalGroup>
 {
@@ -22,6 +25,13 @@ public class LdapGroupServiceImpl implements LdapService<LocalGroup>
   private final String idAttribute;
   private final String nameAttribute;
 
+  /**
+   * Creates a new service to manage groups in the LDAP server
+   * @param ldapTemplate to perform LDAP operations
+   * @param objectClass of the groups in the LDAP server
+   * @param idAttribute attribute which identifies uniquely a group from its sibling entries
+   * @param nameAttribute the attribute to use as the group's name
+   */
   public LdapGroupServiceImpl( LdapTemplate ldapTemplate, String objectClass, String idAttribute, String nameAttribute )
   {
     this.ldapTemplate = ldapTemplate;
@@ -31,10 +41,15 @@ public class LdapGroupServiceImpl implements LdapService<LocalGroup>
   }
 
   @Override
-  public List<String> findAndUpdateLocal( LocalDataProvider<LocalGroup> provider )
+  public List<String> synchronize( LocalDataProvider<LocalGroup> provider )
   {
-    return ldapTemplate.search( query().where( "objectclass" ).is( objectClass ),
+    List<String> ldapIds = ldapTemplate.search( query().where( "objectclass" ).is( objectClass ),
         new LocalGroupLdapIdAttributesMapper( provider ) );
+    if ( ldapIds != null && !ldapIds.isEmpty() )
+    {
+      provider.deleteByLdapIdNotIn( ldapIds );
+    }
+    return ldapIds;
   }
 
   private class LocalGroupLdapIdAttributesMapper implements AttributesMapper<String>

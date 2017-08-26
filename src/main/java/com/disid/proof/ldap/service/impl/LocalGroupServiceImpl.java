@@ -10,8 +10,6 @@ import org.springframework.roo.addon.layers.service.annotations.RooServiceImpl;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
  * = LocalGroupServiceImpl
  *
@@ -28,15 +26,9 @@ public class LocalGroupServiceImpl implements LocalGroupService, LocalDataProvid
   // Every 10 minutes
   @Scheduled( fixedDelayString = "600000" )
   @Transactional
-  public void updateFromLdapGroups()
+  public void synchronizeFromLdapGroups()
   {
-    List<String> currentGroupsInLdap = ldapService.findAndUpdateLocal( this );
-
-    // Delete groups in local database not available in LDAP.
-    if ( currentGroupsInLdap != null && !currentGroupsInLdap.isEmpty() )
-    {
-      getLocalGroupRepository().deleteByLdapIdNotIn( currentGroupsInLdap );
-    }
+    ldapService.synchronize( this );
   }
 
   @Override
@@ -57,4 +49,9 @@ public class LocalGroupServiceImpl implements LocalGroupService, LocalDataProvid
     return group;
   }
 
+  @Override
+  public void deleteByLdapIdNotIn( Iterable<String> ldapIds )
+  {
+    getLocalGroupRepository().deleteByLdapIdNotIn( ldapIds );
+  }
 }

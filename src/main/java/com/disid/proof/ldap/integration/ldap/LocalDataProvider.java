@@ -5,4 +5,6 @@ public interface LocalDataProvider<T>
   T getOrCreateByLdapId( String ldapId );
 
   void saveFromLdap( T value );
+
+  void deleteByLdapIdNotIn( Iterable<String> ldapIds );
 }

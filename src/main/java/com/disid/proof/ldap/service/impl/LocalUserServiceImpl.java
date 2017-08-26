@@ -10,8 +10,6 @@ import org.springframework.roo.addon.layers.service.annotations.RooServiceImpl;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
  * = LocalUserServiceImpl
  *
@@ -28,14 +26,9 @@ public class LocalUserServiceImpl implements LocalUserService, LocalDataProvider
   // Every 10 minutes
   @Scheduled( fixedDelayString = "600000" )
   @Transactional
-  public void updateFromLdapUsers()
+  public void synchronizeFromLdapUsers()
   {
-    List<String> currentUsersInLdap = ldapService.findAndUpdateLocal( this );
-    // Delete groups in local database not available in LDAP.
-    if ( currentUsersInLdap != null && !currentUsersInLdap.isEmpty() )
-    {
-      getLocalUserRepository().deleteByLdapIdNotIn( currentUsersInLdap );
-    }
+    ldapService.synchronize( this );
   }
 
   @Override
@@ -54,6 +47,12 @@ public class LocalUserServiceImpl implements LocalUserService, LocalDataProvider
   public void saveFromLdap( LocalUser localUser )
   {
     getLocalUserRepository().save( localUser );
+  }
+
+  @Override
+  public void deleteByLdapIdNotIn( Iterable<String> ldapIds )
+  {
+    getLocalUserRepository().deleteByLdapIdNotIn( ldapIds );
   }
 
   /**

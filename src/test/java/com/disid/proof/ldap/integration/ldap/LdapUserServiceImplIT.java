@@ -78,7 +78,7 @@ public class LdapUserServiceImplIT
   @Test
   public void findAndUpdateLocalLoadsAndUpdatesExpectedValues()
   {
-    List<String> values = service.findAndUpdateLocal( provider );
+    List<String> values = service.synchronize( provider );
 
     assertThat( values ).isNotEmpty();
 
@@ -89,22 +89,22 @@ public class LdapUserServiceImplIT
   @Test
   public void deleteRemovesUserFromLdap()
   {
-    List<String> initialValues = service.findAndUpdateLocal( provider );
+    List<String> initialValues = service.synchronize( provider );
 
     service.delete( ben );
 
-    List<String> values = service.findAndUpdateLocal( provider );
+    List<String> values = service.synchronize( provider );
     assertThat( values ).isNotEmpty().hasSize( initialValues.size() - 1 );
   }
 
   @Test
   public void saveAddsUserToLdap()
   {
-    List<String> initialValues = service.findAndUpdateLocal( provider );
+    List<String> initialValues = service.synchronize( provider );
 
     service.save( createTest );
 
-    List<String> values = service.findAndUpdateLocal( provider );
+    List<String> values = service.synchronize( provider );
     assertThat( values ).isNotEmpty().hasSize( initialValues.size() + 1 );
   }
 
