@@ -34,7 +34,7 @@ public class LocalGroupServiceImpl implements LocalGroupService, LocalDataProvid
   @Override
   public void saveFromLdap( LocalGroup localGroup )
   {
-    saveFromLdap( localGroup );
+    save( localGroup );
   }
 
   @Override

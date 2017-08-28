@@ -6,41 +6,27 @@ import static org.springframework.security.test.web.servlet.response.SecurityMoc
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 
 import com.disid.proof.ldap.integration.ldap.LdapUserService;
-import com.disid.proof.ldap.integration.ldap.LocalDataProvider;
 import com.disid.proof.ldap.model.LocalUser;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.FormLoginRequestBuilder;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-@RunWith( SpringRunner.class )
-@SpringBootTest
-@AutoConfigureTestDatabase
-@AutoConfigureMockMvc
-@ActiveProfiles( "dev" )
-public class SecurityIT
+public class SecurityIT extends AbstractLdapIT
 {
-  @Autowired
-  private MockMvc mockMvc;
 
   @Autowired
   private LdapUserService ldapUserService;
 
   @Autowired
-  private LocalDataProvider<LocalUser> provider;
+  private MockMvc mockMvc;
 
   @Test
   public void loginWithValidLdapUserThenAuthenticated() throws Exception
   {
-    ldapUserService.synchronize( provider );
+    ldapUserService.synchronize( userProvider );
 
     FormLoginRequestBuilder login = formLogin().user( "ben" ).password( "benspassword" );
 
@@ -58,9 +44,9 @@ public class SecurityIT
     user.setNewRegistration( false );
 
     ldapUserService.create( user, "thepassword" );
-    provider.saveFromLdap( user );
+    userProvider.saveFromLdap( user );
 
-    ldapUserService.synchronize( provider );
+    ldapUserService.synchronize( userProvider );
 
     FormLoginRequestBuilder login = formLogin().user( "newuser" ).password( "thepassword" );
 
@@ -72,7 +58,7 @@ public class SecurityIT
   @Transactional
   public void changePasswordThenLoginThenAuthenticated() throws Exception
   {
-    LocalUser ben = provider.getByLdapId( "ben" );
+    LocalUser ben = userProvider.getByLdapId( "ben" );
 
     ldapUserService.changePassword( ben, "newpassword" );
 
@@ -92,8 +78,8 @@ public class SecurityIT
     user.setNewRegistration( false );
 
     ldapUserService.create( user, "thepassword" );
-    provider.saveFromLdap( user );
-    ldapUserService.synchronize( provider );
+    userProvider.saveFromLdap( user );
+    ldapUserService.synchronize( userProvider );
 
     FormLoginRequestBuilder login = formLogin().user( "newuser2" ).password( "thepassword" );
 
