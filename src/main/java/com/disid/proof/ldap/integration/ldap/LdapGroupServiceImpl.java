@@ -84,7 +84,13 @@ public class LdapGroupServiceImpl implements LdapService<LocalGroup>
   }
 
   @Override
-  public void save( LocalGroup group )
+  public void create( LocalGroup group )
+  {
+    throw new UnsupportedOperationException( "Not implemented" );
+  }
+
+  @Override
+  public void update( LocalGroup group )
   {
     throw new UnsupportedOperationException( "Not implemented" );
   }

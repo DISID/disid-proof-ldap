@@ -27,10 +27,16 @@ public interface LdapService<T>
   List<String> synchronize( LocalDataProvider<T> provider );
 
   /**
-   * Adds or updates the LDAP entry related to the given local entity.
-   * @param element to save the related LDAP entry
+   * Adds the LDAP entry related to the given local entity.
+   * @param element to create the related LDAP entry
    */
-  void save( T element );
+  void create( T element );
+
+  /**
+   * Updates the LDAP entry related to the given local entity.
+   * @param element to update the related LDAP entry
+   */
+  void update( T element );
 
   /**
    * Deletes the given element in the LDAP server

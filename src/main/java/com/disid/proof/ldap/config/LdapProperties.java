@@ -283,6 +283,10 @@ public class LdapProperties
     /**
      * LDAP user data synchronization configuration properties.
      */
+    /**
+     * @author cordin at http://www.disid.com[DISID Corporation S.L.]
+     *
+     */
     public static class User
     {
       /**
@@ -302,6 +306,19 @@ public class LdapProperties
        * Defaults to 'person'.
        */
       public String objectClass = "person";
+
+      /**
+       * The values to use to set the objectClass attribute when creating a new 
+       * user entry.
+       * Defaults to "top","person"
+       */
+      private String[] objectClassValues = new String[] { "top", "person", "organizationalPerson", "inetOrgPerson" };
+
+      /**
+       * The RDN identifier of the parent entry where to add the new created users.
+       * Defaults to "ou=people".
+       */
+      private String baseRdn = "ou=people";
 
       public String getIdAttribute()
       {
@@ -331,6 +348,26 @@ public class LdapProperties
       public void setObjectClass( String objectClass )
       {
         this.objectClass = objectClass;
+      }
+
+      public String[] getObjectClassValues()
+      {
+        return objectClassValues;
+      }
+
+      public void setObjectClassValues( String[] objectClassValues )
+      {
+        this.objectClassValues = objectClassValues;
+      }
+
+      public String getBaseRdn()
+      {
+        return baseRdn;
+      }
+
+      public void setBaseRdn( String baseRdn )
+      {
+        this.baseRdn = baseRdn;
       }
 
     }

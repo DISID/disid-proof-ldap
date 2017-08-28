@@ -22,7 +22,7 @@ Proof of Spring Boot app with LDAP authentication and groups and users managemen
 
 * [ ] Create/update and delete groups stored in the LDAP server.
 
-* [ ] Create/update and delete users stored in the LDAP server and additional information located in the local database. This includes setting or updating the users password.
+* [X] Create/update and delete users stored in the LDAP server and additional information located in the local database. This includes setting or updating the users password.
 
 * [X] Load local database user information to the UserDetails when authenticating to LDAP
 

@@ -2,85 +2,59 @@ package com.disid.proof.ldap.integration.ldap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import com.disid.proof.ldap.model.LocalUser;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @RunWith( SpringRunner.class )
 @SpringBootTest
+@AutoConfigureTestDatabase
 @AutoConfigureMockMvc
 @ActiveProfiles( "dev" )
 public class LdapUserServiceImplIT
 {
-  @Autowired
-  private LdapTemplate ldapTemplate;
-
-  @Mock
+  @SpyBean
   private LocalDataProvider<LocalUser> provider;
 
+  @Autowired
   private LdapUserServiceImpl service;
 
   private LocalUser ben;
-
-  private LocalUser bob;
-
-  private LocalUser jerry;
-
-  private LocalUser slashguy;
-
+  
   private LocalUser createTest;
 
   @Before
   public void setup()
   {
-    service = new LdapUserServiceImpl( ldapTemplate, "person", "uid", "cn" );
-
     ben = new LocalUser();
     ben.setLdapId( "ben" );
     ben.setName( "Ben Alex" );
 
-    bob = new LocalUser();
-    bob.setLdapId( "bob" );
-    // Name different from the one in LDAP so it has to be updated
-    bob.setName( "Old name" );
-
-    jerry = new LocalUser();
-    jerry.setLdapId( "jerry" );
-    // Empty name different from the one in LDAP so it has to be updated
-    jerry.setName( null );
-
-    slashguy = new LocalUser();
-    slashguy.setLdapId( "slashguy" );
-    slashguy.setName( "slash/guy" );
-
     createTest = new LocalUser();
     createTest.setLdapId( "createtest" );
     createTest.setName( "Test name" );
-
-    when( provider.getOrCreateByLdapId( ben.getLdapId() ) ).thenReturn( ben );
-    when( provider.getOrCreateByLdapId( bob.getLdapId() ) ).thenReturn( bob );
-    when( provider.getOrCreateByLdapId( jerry.getLdapId() ) ).thenReturn( jerry );
-    when( provider.getOrCreateByLdapId( slashguy.getLdapId() ) ).thenReturn( slashguy );
-    when( provider.getOrCreateByLdapId( createTest.getLdapId() ) ).thenReturn( createTest );
   }
 
   @Test
+  @Transactional
   public void synchronizeUpdatesExpectedValues()
   {
     List<String> values = service.synchronize( provider );
+    LocalUser bob = provider.getByLdapId( "bob" );
+    LocalUser jerry = provider.getByLdapId( "jerry" );
 
     assertThat( values ).isNotEmpty();
 
@@ -89,6 +63,7 @@ public class LdapUserServiceImplIT
   }
 
   @Test
+  @Transactional
   public void deleteRemovesUserFromLdap()
   {
     List<String> initialValues = service.synchronize( provider );
@@ -100,11 +75,12 @@ public class LdapUserServiceImplIT
   }
 
   @Test
+  @Transactional
   public void saveAddsUserToLdap()
   {
     List<String> initialValues = service.synchronize( provider );
 
-    service.save( createTest );
+    service.create( createTest );
 
     List<String> values = service.synchronize( provider );
     assertThat( values ).isNotEmpty().hasSize( initialValues.size() + 1 );

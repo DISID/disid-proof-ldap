@@ -2,18 +2,16 @@ package com.disid.proof.ldap.integration.ldap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import com.disid.proof.ldap.model.LocalGroup;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -22,25 +20,18 @@ import java.util.List;
 
 @RunWith( SpringRunner.class )
 @SpringBootTest
+@AutoConfigureTestDatabase
 @AutoConfigureMockMvc
 @ActiveProfiles( "dev" )
 public class LdapGroupServiceImplIT
 {
   private static final String[] GROUP_IDS = new String[] { "developers", "managers", "submanagers" };
 
-  @Autowired
-  private LdapTemplate ldapTemplate;
-
-  @Mock
+  @SpyBean
   private LocalDataProvider<LocalGroup> provider;
 
+  @Autowired
   private LdapGroupServiceImpl service;
-
-  @Before
-  public void setup()
-  {
-    service = new LdapGroupServiceImpl( ldapTemplate, "groupOfUniqueNames", "cn", "cn" );
-  }
 
   @Test
   public void synchronizeUpdatesExpectedValues()
@@ -56,10 +47,6 @@ public class LdapGroupServiceImplIT
     group3.setLdapId( GROUP_IDS[2] );
     // Empty name different from the one in LDAP so it has to be updated
     group3.setName( null );
-
-    when( provider.getOrCreateByLdapId( GROUP_IDS[0] ) ).thenReturn( group1 );
-    when( provider.getOrCreateByLdapId( GROUP_IDS[1] ) ).thenReturn( group2 );
-    when( provider.getOrCreateByLdapId( GROUP_IDS[2] ) ).thenReturn( group3 );
 
     List<String> values = service.synchronize( provider );
 

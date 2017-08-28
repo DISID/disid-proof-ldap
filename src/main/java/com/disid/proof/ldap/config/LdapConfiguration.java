@@ -79,7 +79,8 @@ public class LdapConfiguration
   {
     LdapProperties.Sync.User user = ldapProperties.getSync().getUser();
     return new LdapUserServiceImpl( ldapTemplate(), user.getObjectClass(), user.getIdAttribute(),
-        user.getNameAttribute() );
+        user.getNameAttribute(), ldapProperties.getAuth().getPasswordAttribute(), user.getObjectClassValues(),
+        user.getBaseRdn() );
   }
 
   /**

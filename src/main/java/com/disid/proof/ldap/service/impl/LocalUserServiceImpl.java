@@ -70,7 +70,7 @@ public class LocalUserServiceImpl implements LocalUserService, LocalDataProvider
   public LocalUser save( LocalUser entity )
   {
     LocalUser localUser = getLocalUserRepository().save( entity );
-    ldapService.save( localUser );
+    ldapService.create( localUser );
     return localUser;
   }
 
