@@ -34,13 +34,18 @@ public class LocalUserServiceImpl implements LocalUserService, LocalDataProvider
   @Override
   public LocalUser getOrCreateByLdapId( String ldapId )
   {
-    LocalUser user = getLocalUserRepository().findByLdapId( ldapId );
+    LocalUser user = getByLdapId( ldapId );
     if ( user == null )
     {
       user = new LocalUser();
       user.setLdapId( ldapId );
     }
     return user;
+  }
+
+  public LocalUser getByLdapId( String ldapId )
+  {
+    return getLocalUserRepository().findByLdapId( ldapId );
   }
 
   @Override

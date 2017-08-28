@@ -43,7 +43,7 @@ public class LdapGroupServiceImplIT
   }
 
   @Test
-  public void findAndUpdateLoadsAndUpdatesExpectedValues()
+  public void synchronizeUpdatesExpectedValues()
   {
     LocalGroup group1 = new LocalGroup();
     group1.setLdapId( GROUP_IDS[0] );

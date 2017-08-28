@@ -4,6 +4,10 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 
+import com.disid.proof.ldap.integration.ldap.LdapService;
+import com.disid.proof.ldap.integration.ldap.LocalDataProvider;
+import com.disid.proof.ldap.model.LocalUser;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +27,17 @@ public class SecurityIT
   @Autowired
   private MockMvc mockMvc;
 
+  @Autowired
+  private LdapService<LocalUser> ldapUserService;
+
+  @Autowired
+  private LocalDataProvider<LocalUser> provider;
+
   @Test
   public void loginWithValidLdapUserThenAuthenticated() throws Exception
   {
+    ldapUserService.synchronize( provider );
+
     FormLoginRequestBuilder login = formLogin().user( "ben" ).password( "benspassword" );
 
     mockMvc.perform( login ).andExpect( authenticated().withUsername( "ben" ) );

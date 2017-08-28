@@ -78,7 +78,7 @@ public class LdapUserServiceImplIT
   }
 
   @Test
-  public void findAndUpdateLocalLoadsAndUpdatesExpectedValues()
+  public void synchronizeUpdatesExpectedValues()
   {
     List<String> values = service.synchronize( provider );
 

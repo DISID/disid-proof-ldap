@@ -5,7 +5,7 @@ Proof of Spring Boot app with LDAP authentication and groups and users managemen
 
 * [ ] Integrate the Spring LDAP related utilities:
 ** [X] Spring LDAP
-** [ ] Spring Data LDAP
+** -[ ] Spring Data LDAP- (not needed)
 ** [X] Spring Security LDAP
 
 * [X] Provide authentication over an LDAP server using _Spring Security LDAP_
@@ -16,13 +16,15 @@ Proof of Spring Boot app with LDAP authentication and groups and users managemen
 
 * [ ] Integrate and test with an external LDAP server for the default production profile (TODO: which external LDAP server to test?).
 
-* [ ] Synchronization of groups data with the LDAP server.
+* [X] Synchronization of groups data with the LDAP server.
 
-* [ ] Synchronization of users data with the LDAP server.
+* [X] Synchronization of users data with the LDAP server.
 
-* [ ] Groups CRUD stored in the LDAP server and additional information located in the local database.
+* [ ] Create/update and delete groups stored in the LDAP server.
 
-* [ ] Users CRUD stored in the LDAP server and additional information located in the local database. This includes setting or updating the users password.
+* [ ] Create/update and delete users stored in the LDAP server and additional information located in the local database. This includes setting or updating the users password.
+
+* [X] Load local database user information to the UserDetails when authenticating to LDAP
 
 * [ ] Configurable properties to:
 ** [X] Connect to the LDAP server

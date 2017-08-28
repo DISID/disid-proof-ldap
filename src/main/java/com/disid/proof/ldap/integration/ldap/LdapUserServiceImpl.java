@@ -16,6 +16,10 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.ldap.LdapName;
 
+/**
+ * {@link LdapService} implementation to manage LDAP entries related to the {@link LocalUser}
+ * entity.
+ */
 @Transactional
 public class LdapUserServiceImpl implements LdapService<LocalUser>
 {
@@ -27,6 +31,13 @@ public class LdapUserServiceImpl implements LdapService<LocalUser>
 
   private final String nameAttribute;
 
+  /**
+   * Creates a new instance with the given configuration.
+   * @param ldapTemplate to perform LDAP operations
+   * @param objectClass of the LDAP entry related to the {@link LocalUser} entity
+   * @param idAttribute the LDAP entry attribute which uniquely identifies an entry from its siblings
+   * @param nameAttribute the LDAP entry attribute where the user name is stored
+   */
   public LdapUserServiceImpl( LdapTemplate ldapTemplate, String objectClass, String idAttribute, String nameAttribute )
   {
     this.ldapTemplate = ldapTemplate;

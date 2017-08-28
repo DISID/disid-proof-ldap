@@ -40,13 +40,18 @@ public class LocalGroupServiceImpl implements LocalGroupService, LocalDataProvid
   @Override
   public LocalGroup getOrCreateByLdapId( String ldapId )
   {
-    LocalGroup group = getLocalGroupRepository().findByLdapId( ldapId );
+    LocalGroup group = getByLdapId( ldapId );
     if ( group == null )
     {
       group = new LocalGroup();
       group.setLdapId( ldapId );
     }
     return group;
+  }
+
+  public LocalGroup getByLdapId( String ldapId )
+  {
+    return getLocalGroupRepository().findByLdapId( ldapId );
   }
 
   @Override

@@ -1,5 +1,8 @@
 package com.disid.proof.ldap.config;
 
+import com.disid.proof.ldap.integration.ldap.CamLdapUserDetailsMapper;
+import com.disid.proof.ldap.integration.ldap.LocalDataProvider;
+import com.disid.proof.ldap.model.LocalUser;
 import com.disid.proof.ldap.service.api.AdminUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
   @Autowired
   private DefaultSpringSecurityContextSource contextSource;
 
+  @Autowired
+  private LocalDataProvider<LocalUser> localUserProvider;
+
   /**
    * LDAP properties
    */
@@ -53,6 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 
     // @formatter:off
     auth.ldapAuthentication()
+        .userDetailsContextMapper( 
+            new CamLdapUserDetailsMapper(localUserProvider, ldapProperties.getSync().getUser().getIdAttribute()) )
         .userDnPatterns( authProps.getUserDnPatterns() )
         .userSearchBase( authProps.getUserSearchBase() )
         .userSearchFilter( authProps.getUserSearchFilter() )

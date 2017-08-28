@@ -14,7 +14,8 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 
 /**
- * Service to manage groups in the LDAP service.
+ * {@link LdapService} implementation to manage LDAP entries related to the {@link LocalGroup}
+ * entity.
  */
 @Transactional
 public class LdapGroupServiceImpl implements LdapService<LocalGroup>
