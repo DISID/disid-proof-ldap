@@ -388,7 +388,7 @@ public class LdapProperties
        * The objectClass of the groups.
        * Defaults to 'group'.
        */
-      private String objectClass;
+      private String objectClass = "group";
 
       /**
        * The attribute in the group entries to read the group name from.
